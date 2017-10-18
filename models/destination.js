@@ -9,11 +9,13 @@ var media = {
 var destinationSchema = mongoose.Schema({
     name        :   String,
     description :   String,
-    files       :   [{name}],
+    media       :   String,
     coords      : {
         lat : Number,
         long: Number,
     },
+    question    :   String,
+    answer      :   String,
     destinations:  [mongoose.Schema.Types.ObjectId],
 },
 {
@@ -25,6 +27,6 @@ var destinationSchema = mongoose.Schema({
 
 
 
-var Game = mongoose.model('games', gameSchema);
+var Model = mongoose.model('destinations', destinationSchema);
 
-module.exports = Game;
+module.exports = Model;

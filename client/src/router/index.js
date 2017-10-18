@@ -6,6 +6,7 @@ import Destinations from '@/components/Destinations.vue'
 import Users from '@/components/Users.vue'
 import SingleGame from '@/components/Singlegame.vue'
 import CreateGame from '@/components/CreateGame.vue'
+import SingleDestination from '@/components/Singledestination.vue'
 
 Vue.use(Router)
 
@@ -22,6 +23,7 @@ export default new Router({
       component: Games,
       children : [
         {
+          name : 'singlegame',
           path : ':id',
           component : SingleGame
         }
@@ -30,7 +32,14 @@ export default new Router({
     {
       path: '/destinations',
       name: 'Destinations',
-      component : Destinations
+      component : Destinations,
+      children : [
+        {
+          name : 'singledestination',
+          path : ':destinationId',
+          component : SingleDestination,
+        }
+      ]
     },
     {
       path: '/users',
@@ -41,6 +50,11 @@ export default new Router({
       path : '/create-game',
       name : 'NewGame',
       component : SingleGame,
+    },
+    {
+      path : '/create-destination',
+      name : 'NewDestination',
+      component : SingleDestination,
     }
   ]
 })

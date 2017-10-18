@@ -22,28 +22,21 @@
 </template>
 
 <script>
+import api from '../util/ajaxAPI.js';
+
 export default {
   name: 'Games',  
   data () {
     return {
-      games : [{
-          name : "Test 1",
-          id : 1,
-      },
-      {   
-          name : "Test 2",
-          id : 2,
-      },
-      {   
-          name : "Test 4",
-          id : 3,
-      },
-      {
-          name : "Test 3",
-          id : 4,
-      }
-      ]
+      games : []
     }
+  },
+  created : function(){
+      api.listGames()
+        .then(function(data){
+            this.games = data;
+        }.bind(this))
+
   }
 }
 </script>
