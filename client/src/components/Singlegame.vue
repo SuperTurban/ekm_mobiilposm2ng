@@ -15,8 +15,19 @@
             </div>
 
             <div>
-                <label class="typo__label"></label>
-                <multiselect v-model="game.destinations" placeholder="Vali rajad:" :multiple="true" track-by="id" label="name" :options="destinations"></multiselect>
+                <label class="">Vali punktid: </label>
+                <multiselect 
+                    v-model="game.destinations" 
+                    placeholder="Punktid:" 
+                    :multiple="true" 
+                    track-by="id" 
+                    label="name" 
+                    :options="destinations"
+                    select-label='Vali punkt'
+                    deselect-label='Eemalda punkt'
+                    selected-label ='Valitud'
+                    >
+                </multiselect>
             </div>
 
             <div class="row action-buttons">
@@ -44,6 +55,9 @@ export default {
     name : 'SingleGame',
     data : function(){
         return {
+            labels : {
+                selected : 'test'
+            },
             game : {
                 name : undefined,
                 description : undefined,
@@ -62,22 +76,25 @@ export default {
     },
     methods : {
         submit:function(){
-            
+
             var game_data = {
                 name : this.game.name,
                 description : this.game.description,
                 destinations : api.mapDestinationIds(this.game.destinations)
             };
 
-            console.log(game_data);
             if(this.isNewGame){
                 api.newGame(game_data)
                     .then(function(response){
                         this.$router.push({name : 'singlegame', params : {id : response.data.id}})
                      }.bind(this));
             }
+
             else{
-                console.log('not new game');
+                api.editGame(this.$route.params.id, game_data)
+                    .then(function(response){
+                        alert('muudetud');
+                    }.bind(this));
             }
         },
         reload : function(){

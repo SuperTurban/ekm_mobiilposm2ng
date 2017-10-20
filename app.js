@@ -8,13 +8,19 @@ require('dotenv').load();
 var app = express();
 
 var mongoose = require('mongoose');
-console.log(process.env);
-mongoose.connect(process.env.MONGODB_URI);
+
+if(process.env.NODE_ENV == 'dev'){
+  mongoose.connect(process.env.MONGODB_URI);
+}
+else{
+  mongoose.connect(process.env.MONGODB_URI);
+}
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
 });
+
 
 app.use(function (req, res, next) {
       res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080');

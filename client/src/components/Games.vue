@@ -8,9 +8,10 @@
                 </router-link>
             </div>   
             <div v-for="game in games" class="game-name-wrapper">
-                <router-link :to="'/games/'+game.id" class="btn btn-outline-dark btn-block">
+                <router-link :to="'/games/'+game.id" class="btn btn-outline-dark btn gamelink">
                   {{game.name}}
                 </router-link>
+                <button class="btn btn-danger float-right" @click.prevent="deleteGame(game.id)">X</span></button>
             </div>
          </div>
        <div class="cur-game-info col-8">
@@ -31,6 +32,14 @@ export default {
       games : []
     }
   },
+  methods : {
+      deleteGame : function(id){
+          api.deleteGame(id)
+            .then(function(){
+                this.games = this.games.filter(el => id!=el.id);
+            }.bind(this))
+      }
+  },
   created : function(){
       api.listGames()
         .then(function(data){
@@ -44,12 +53,19 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
 .game-name-wrapper{
+    clear:both;
     margin-top:10px;
+}
+.gamelink{
+    width:80%;
 }
 .games-list{
     border-right:1px solid #dadada;
 }
 #games-container{
     max-width:1000px;
+}
+button{
+    cursor:pointer;
 }
 </style>
