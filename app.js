@@ -36,7 +36,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'client/dist')));
+app.use(express.static('./client/dist'));
 
 
 require('./routes/index.js')(app); 
@@ -53,7 +53,7 @@ app.use(function(req, res, next) {
 
 
 
-/*
+
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
@@ -62,7 +62,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   return; 
 });
-*/
 
 
 app.listen(process.env.PORT || 3000, function () {
