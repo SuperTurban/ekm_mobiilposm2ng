@@ -28,5 +28,35 @@ module.exports = function(app){
 
     });
 
+    app.post(base_path + '/register', function(req,res){
+
+        let user = new User({
+            username : req.body.username, 
+            email    : req.body.email,
+            admin    : 0,
+        });
+
+        user.save(function(err, data){
+            if(err){
+                return res.json({
+                    status : 'failure', 
+                    message : 'email või nimi juba kasutuses'
+                });
+            }
+            else{
+                res.json({
+                    status : 'ok',
+                    username : data.username,
+                    email : data.email,
+                    uid : data._id,
+                });
+            }
+        })
+
+
+
+
+    });
+
     
 };
