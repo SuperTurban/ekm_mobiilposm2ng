@@ -30,8 +30,6 @@
 
 
 <script>
-import api from './../util/ajaxAPI.js';
-
 export default {
     name : 'login',
     data : function(){
@@ -42,13 +40,16 @@ export default {
     },
     methods : {
         login : function(){
-            api.authenticate(this.email, this.password)
+            console.log(this.api);
+            this.api.authenticate(this.email, this.password)
                 .then(function(){
                     this.$router.push({name : 'Games'});
                     this.$parent.state.loggedIn = true;
-                 }.bind(this));
-
-        }
+                 }.bind(this))
+                 .catch(function(e){
+                     alert('vigane parool');
+                 });
+            }
     }
 
 }

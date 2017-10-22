@@ -23,8 +23,6 @@
 </template>
 
 <script>
-import api from '../util/ajaxAPI.js';
-
 export default {
   name: 'Games',  
   data () {
@@ -34,14 +32,14 @@ export default {
   },
   methods : {
       deleteGame : function(id){
-          api.deleteGame(id)
-            .then(function(){
+          this.api.deleteGame(id)
+            .then(function(response){
                 this.games = this.games.filter(el => id!=el.id);
             }.bind(this))
       }
   },
   created : function(){
-      api.listGames()
+      this.api.listGames()
         .then(function(data){
             this.games = data;
         }.bind(this))
@@ -50,7 +48,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
 .game-name-wrapper{
     clear:both;

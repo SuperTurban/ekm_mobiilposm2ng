@@ -49,8 +49,8 @@
 
 <script>
 
-import api from '../util/ajaxAPI.js';
 import Multiselect from 'vue-multiselect'; 
+
 export default {
     name : 'SingleGame',
     data : function(){
@@ -80,18 +80,18 @@ export default {
             var game_data = {
                 name : this.game.name,
                 description : this.game.description,
-                destinations : api.mapDestinationIds(this.game.destinations)
+                destinations : this.api.mapDestinationIds(this.game.destinations)
             };
 
             if(this.isNewGame){
-                api.newGame(game_data)
+                this.api.newGame(game_data)
                     .then(function(response){
                         this.$router.push({name : 'singlegame', params : {id : response.data.id}})
                      }.bind(this));
             }
 
             else{
-                api.editGame(this.$route.params.id, game_data)
+                this.api.editGame(this.$route.params.id, game_data)
                     .then(function(response){
                         alert('muudetud');
                     }.bind(this));
@@ -99,14 +99,14 @@ export default {
         },
         reload : function(){
             if(!this.isNewGame){
-                api.gameById(this.$route.params.id)
+                this.api.gameById(this.$route.params.id)
                     .then(function(data){
                         console.log(data);
                         this.game = data;
                     }.bind(this));
             }
 
-            api.listDestinations()
+            this.api.listDestinations()
                 .then(function(data){
                     console.log(data);
                     this.destinations = data;

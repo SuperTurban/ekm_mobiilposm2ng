@@ -27,8 +27,7 @@ module.exports = function(app){
              });
 
     });
-
-    app.post(base_path + '/register', function(req,res){
+   app.post(base_path + '/register', function(req,res){
 
         let user = new User({
             username : req.body.username, 
@@ -52,10 +51,6 @@ module.exports = function(app){
                 });
             }
         })
-
-
-
-
     });
 
     

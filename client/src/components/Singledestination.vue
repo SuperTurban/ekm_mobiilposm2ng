@@ -65,7 +65,6 @@
 
 import api from '../util/ajaxAPI.js';
 import Multiselect from 'vue-multiselect'; 
-api.listGames();
 export default {
     name : 'SingleDestination',
     data : function(){
@@ -106,7 +105,7 @@ export default {
         reload : function(){
             if(!this.isNewDestination){
                 console.log(this.$route.params.destinationId);
-                api.destinationById(this.$route.params.destinationId)
+                this.api.destinationById(this.$route.params.destinationId)
                     .then(function(data){
                         console.log(data);
                         this.destination = data;
@@ -122,7 +121,7 @@ export default {
     created : function(){
         this.reload();
 
-        api.listDestinations()
+        this.api.listDestinations()
             .then(function(data){
                 console.log('tes');
                 this.destinations = data;

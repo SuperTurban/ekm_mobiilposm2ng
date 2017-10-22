@@ -7,11 +7,10 @@ import axios from 'axios';
 
 Vue.config.productionTip = false
 
-axios.get('http://localhost:3000/')
-  .then(function(data){
-    console.log(data);
-  });
+let api = require('./util/ajaxAPI.js');
+api.vue = Vue;
 
+Vue.prototype.api = api.default;
 
 new Vue({
   el: '#app',

@@ -8,15 +8,11 @@ var authmdw = require('./../middleware/authenticate.js');
 
 module.exports = function(app){
 
-    app.get('/app/game', authmdw.checkAdmin, function(req,res,next){
+    app.get('/app/game', function(req,res,next){
         console.log('test');
         Game.find(function(err, docs){
             return res.send(docs);
         })
-    });
-
-    app.get('/app/game/test', authmdw.checkAdmin, function(req,res,next){
-        res.send('test');
     });
 
     app.post('/app/game', authmdw.checkAdmin, function(req,res,next){
@@ -45,7 +41,7 @@ module.exports = function(app){
         })
     });
 
-    app.get('/app/game/:id', authmdw.checkAdmin, function(req,res){
+    app.get('/app/game/:id', function(req,res){
         Game.findOne(
             {_id: req.params.id},
             function(err, docs){
@@ -66,9 +62,8 @@ module.exports = function(app){
         })
     });
 
-    app.delete('/app/game/:id', authmdw.checkAdmin, function(req,res){
+    app.post('/app/game/:id/delete', authmdw.checkAdmin, function(req,res){
         Game.findByIdAndRemove(req.params.id, function(err, data){
-            console.log(data);
             if(err)
                 return console.log(err);
             else

@@ -7,27 +7,39 @@ if(process.env.NODE_ENV == "development")
 else
     var host = "//ekmweb.herokuapp.com";
 
-let api = {
-    token : false,
-    tokenize : function(data){
-        data.token = api.token;
+
+
+let api = function(){
+    this.vue = null;
+    this.token = false;
+    this.loggedIn = false;
+
+    this.tokenize = function(data){
+        data.token = this.token;
         return data;
-    },
-    mapDestinationIds : function(destinations){
+    };
+
+    this.mapDestinationIds = function(destinations){
         return destinations.map(function(el){
             return el.id;
         })
-    },
+    };
 
-    authenticate : function(email, password){
+    this.authenticate = function(email, password){
         return axios
-                .post(host + "/app/game")
+                .post(host + "/app/authenticate", {email: email, password : password})
                 .then(function(response){
-                    api.token = response.data;
-                });
+                    if(response.data.status == "ok"){
+                        this.token = response.data.token;
+                        return response.data;
+                    }
+                    else{
+                        throw 'wrong password';
+                    }
+                }.bind(this));
     },
 
-    listGames : function(){
+    this.listGames = function(){
         return axios
                 .get(host + "/app/game")    
                 .then(function(response){
@@ -40,44 +52,43 @@ let api = {
 
                     return data;
                 })
-    },
+    };
 
-    gameById : function(id){
+    this.gameById = function(id){
           return axios
             .get(host + "/app/game/" + id)
             .then(function(response){
                 return response.data;
             })
-   },
+   };
 
-    newGame : function(game){
+    this.newGame = function(game){
         var data = {
             game : game,
         };
-        data = api.tokenize(data);
+        data = this.tokenize(data);
         return axios.post(host + '/app/game', data);
-    },
+    };
 
-    editGame : function(id, game){
+    this.editGame = function(id, game){
         var data = {
             game : game
         }
-        data = api.tokenize(data);
+        data = this.tokenize(data);
         return axios.put(host + '/app/game/' + id, data);
-    },
+    };
 
-    deleteGame : function(id){
-        var data = api.tokenize({});
-        return axios.delete(host + '/app/game/' + id, data);
-    },
+    this.deleteGame = function(id){
+        var data = this.tokenize({});
+        return axios.post(host + '/app/game/' + id + '/delete', data);
+    };
 
     // DESTINATIONS
-    listDestinations : function(id){
+    this.listDestinations = function(id){
         return axios
             .get(host + "/app/destination")    
             .then(function(response){
                 let data = response.data.map(function(v){
-                    console
                     return {
                         id : v._id,
                         name : v.name 
@@ -85,29 +96,37 @@ let api = {
                 });
                 return data;
             })
-    },
+    };
 
-    destinationById : function(id){
+
+    this.deleteDestination = function(id){
+        var data = this.tokenize({});
+        return axios.post(host + '/app/destination/' + id + '/delete', data);
+    };
+
+    this.destinationById = function(id){
         return axios
             .get(host + "/app/destination/" + id)
             .then(function(response){
                 return response.data;
             })
-    },
+    };
 
-    newDestination : function(destination){
+    this.newDestination = function(destination){
         let data = {
             destination  : destination,
         };
         
-        data = api.tokenize(data);
+        data = this.tokenize(data);
 
         return axios.post(host + '/app/destination', data);
-    },
+    };
 
-    editDestination : function(destination){
+    this.editDestination = function(destination){
 
-    },
+    };
 }
+let API = new api();
 
-export default api;
+export default API; 
+    

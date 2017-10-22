@@ -14,7 +14,7 @@
 </ul>
 <ul class="nav nav-pills justify-content-end">
   <li class="nav navbar-nav navbar-right">
-    <a class="nav-link" href="#">Logi välja</a>
+    <a class="nav-link" href="#" @click="logout">Logi välja</a>
   </li>  
 </ul>
 </nav>
@@ -27,6 +27,12 @@ export default {
   data () {
     return {
       
+    }
+  },
+  methods : {
+    logout : function(){
+      this.$parent.state.loggedIn = false;
+      this.api.token = false;
     }
   }
 }
