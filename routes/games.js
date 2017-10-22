@@ -4,20 +4,22 @@ var router = express.Router();
 var Game = require('./../models/game.js');
 var Destination = require('./../models/destination.js');
 
+var authmdw = require('./../middleware/authenticate.js');
+
 module.exports = function(app){
 
-    app.get('/app/game', function(req,res,next){
+    app.get('/app/game', authmdw.checkAdmin, function(req,res,next){
+        console.log('test');
         Game.find(function(err, docs){
             return res.send(docs);
-            next();
         })
     });
 
-    app.get('/app/game/test', function(req,res,next){
+    app.get('/app/game/test', authmdw.checkAdmin, function(req,res,next){
         res.send('test');
     });
 
-    app.post('/app/game', function(req,res,next){
+    app.post('/app/game', authmdw.checkAdmin, function(req,res,next){
         var game = new Game(req.body.game);
 
         var q = game.save(function(err){
@@ -29,7 +31,7 @@ module.exports = function(app){
         });
     });
 
-    app.put('/app/game/:id', function(req,res){
+    app.put('/app/game/:id', authmdw.checkAdmin, function(req,res){
         let id = req.params.id;
         let game = req.body.game;
 
@@ -43,7 +45,7 @@ module.exports = function(app){
         })
     });
 
-    app.get('/app/game/:id', function(req,res){
+    app.get('/app/game/:id', authmdw.checkAdmin, function(req,res){
         Game.findOne(
             {_id: req.params.id},
             function(err, docs){
@@ -64,7 +66,7 @@ module.exports = function(app){
         })
     });
 
-    app.delete('/app/game/:id', function(req,res){
+    app.delete('/app/game/:id', authmdw.checkAdmin, function(req,res){
         Game.findByIdAndRemove(req.params.id, function(err, data){
             console.log(data);
             if(err)
