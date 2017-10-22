@@ -5,13 +5,11 @@ var User = require('./../models/user.js');
 let bcrypt = require('bcrypt');
 
 module.exports = function(app){
-    app.get(base_path + '/maketestadminuser', function(req,res){
 
+    app.get(base_path + '/maketestadminuser', function(req,res){
         let password = bcrypt.hash('testpassword', 10)
             .then(function(hash){
-                if(false)
-                    return console.log(err);
-                else {
+
                     let user = new User({
                         username : 'ekmadmin',
                         password : hash,
@@ -26,7 +24,6 @@ module.exports = function(app){
                             return res.send(r);
                         }
                     })
-                }
              });
 
     });

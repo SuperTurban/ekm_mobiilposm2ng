@@ -23,10 +23,9 @@ module.exports = function(app){
 
             data.checkPassword(password, function(err, correct){
                 if(!correct)
-                    return res.send({err : 'Wrong password'})
-                
-                    
-                //FIXTHISSECRET
+                    return res.send({sucess : 'failure', message : 'Vale parool!'});
+
+                ///secretfix
                 res.send(jwt.sign({lin : true, username: data.username}, 'provsecret'))
             })
         });
