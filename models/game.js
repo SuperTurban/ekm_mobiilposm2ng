@@ -4,6 +4,7 @@ var gameSchema = mongoose.Schema({
     name        :   String,
     description :   String,
     destinations:  [mongoose.Schema.Types.ObjectId],
+    active      :   Boolean,
 },
 {
     timestamps : {

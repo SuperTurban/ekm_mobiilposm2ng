@@ -14,6 +14,18 @@
                 <textarea v-model="game.description" class="form-control" id="game_description" rows="3"></textarea>
             </div>
 
+            <div class="form-group">
+                <label for="game_active">Rada aktiivne:</label>
+                <button id="game_active" class="btn" v-bind:class="{'btn-success' : game.active}" v-on:click="toggleActive">
+                    <span v-if="game.active">
+                        Aktiivne
+                    </span>
+                    <span v-else>
+                        Mitteaktiivne
+                    </span>
+                </button>
+            </div>
+
             <div>
                 <label class="">Vali punktid: </label>
                 <multiselect 
@@ -62,6 +74,7 @@ export default {
                 name : undefined,
                 description : undefined,
                 destinations : [],
+                active : false,
             },
             destinations : []
         }
@@ -75,12 +88,18 @@ export default {
         Multiselect
     },
     methods : {
+        toggleActive : function(){
+            this.game.active = !this.game.active;
+            this.$forceUpdate();
+            return;
+        },
         submit:function(){
 
             var game_data = {
                 name : this.game.name,
                 description : this.game.description,
-                destinations : this.api.mapDestinationIds(this.game.destinations)
+                destinations : this.api.mapDestinationIds(this.game.destinations),
+                active : this.game.active,
             };
 
             if(this.isNewGame){
@@ -101,7 +120,6 @@ export default {
             if(!this.isNewGame){
                 this.api.gameById(this.$route.params.id)
                     .then(function(data){
-                        console.log(data);
                         this.game = data;
                     }.bind(this));
             }
@@ -141,5 +159,8 @@ export default {
 <style>
     .action-buttons{
         margin-top:25px;
+    }
+    #game_active{
+        display:block;
     }
 </style>

@@ -20,7 +20,6 @@ module.exports = function(app){
 
         var q = game.save(function(err){
             if(err){
-                console.log(err);
                 return;
             }
             res.send({status : 'ok', id : game._id});
@@ -49,6 +48,7 @@ module.exports = function(app){
             }
         )
         .then(function(docs){
+            console.log(docs);
             console.log('test');
             Destination.find({
                 '_id' : {
@@ -56,7 +56,28 @@ module.exports = function(app){
                 }
             },function(err, destinations){
                 destinations = destinations.map(el => ({id : el._id, name :  el.name}));
-                var r = {name : docs.name, _id : docs._id, description: docs.description, destinations : destinations};
+                var r = {active: docs.active, name : docs.name, _id : docs._id, description: docs.description, destinations : destinations};
+                res.json(r);
+            });
+        })
+    });
+
+    app.get('/app/game/:id/destinations', function(req,res){
+        Game.findOne(
+            {_id: req.params.id},
+            function(err, docs){
+                return docs;
+            }
+        )
+        .then(function(docs){
+            console.log('test');
+            Destination.find({
+                '_id' : {
+                    $in : docs.destinations
+                }
+            },function(err, destinations){
+                destinations = destinations.map(el => ({id : el._id, name :  el.name}));
+                var r = {status : 'ok', destinations : destinations};
                 res.json(r);
             });
         })
