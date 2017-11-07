@@ -6,6 +6,7 @@
 
             <div class="form-group">
                 <label for="game_title">Raja nimi:</label>
+                <verror :msg="validationErrors.name"></verror> 
                 <input v-model="game.name" class="form-control" id="game_title"> 
             </div>
 
@@ -62,7 +63,7 @@
 <script>
 
 import Multiselect from 'vue-multiselect'; 
-
+import ValidationError from './ValidationError.vue';
 export default {
     name : 'SingleGame',
     data : function(){
@@ -76,7 +77,8 @@ export default {
                 destinations : [],
                 active : false,
             },
-            destinations : []
+            destinations : [],
+            validationErrors : {},
         }
     },
     computed : {
@@ -85,16 +87,26 @@ export default {
         }
     },
     components :{
-        Multiselect
+        Multiselect,
+        verror : ValidationError
     },
     methods : {
+        setValidationErrors : function(errors){
+            for(var key in errors){
+                if(errors.hasOwnProperty(key)){
+                    var mkey = key.split('.')[1];
+                    this.validationErrors[mkey] = errors[key].msg;
+                }
+            }
+            this.$forceUpdate();
+        },
         toggleActive : function(){
             this.game.active = !this.game.active;
             this.$forceUpdate();
             return;
         },
         submit:function(){
-
+            this.validationErrors = {};
             var game_data = {
                 name : this.game.name,
                 description : this.game.description,
@@ -106,13 +118,19 @@ export default {
                 this.api.newGame(game_data)
                     .then(function(response){
                         this.$router.push({name : 'singlegame', params : {id : response.data.id}})
-                     }.bind(this));
+                    }.bind(this))
+                    .catch(function(error){
+                        this.setValidationErrors(error.response.data.errors);
+                    }.bind(this));
             }
 
             else{
                 this.api.editGame(this.$route.params.id, game_data)
                     .then(function(response){
                         alert('muudetud');
+                    }.bind(this))
+                    .catch(function(error){
+                        this.setValidationErrors(error.response.data.errors)
                     }.bind(this));
             }
         },
@@ -126,7 +144,6 @@ export default {
 
             this.api.listDestinations()
                 .then(function(data){
-                    console.log(data);
                     this.destinations = data;
                 }.bind(this));
 /*

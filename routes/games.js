@@ -4,6 +4,9 @@ var router = express.Router();
 var Game = require('./../models/game.js');
 var Destination = require('./../models/destination.js');
 
+const { check, body, validationResult } = require('express-validator/check');
+const { matchedData, sanitize } = require('express-validator/filter');
+
 var authmdw = require('./../middleware/authenticate.js');
 
 module.exports = function(app){
@@ -15,16 +18,25 @@ module.exports = function(app){
         })
     });
 
-    app.post('/app/game', authmdw.checkAdmin, function(req,res,next){
-        var game = new Game(req.body.game);
+    app.post(
+        '/app/game', 
+        authmdw.checkAdmin, 
+        body('game.name', 'Mängul peab olema nimi (vähemalt 3 tähte)!').isLength({min : 3}),
+        function(req,res,next){
 
-        var q = game.save(function(err){
-            if(err){
-                return;
+            if(!validationResult(req).isEmpty()){
+                return res.status(422).json({errors: validationResult(req).mapped()})
             }
-            res.send({status : 'ok', id : game._id});
+
+            var game = new Game(req.body.game);
+
+            var q = game.save(function(err){
+                if(err){
+                    return;
+                }
+                res.send({status : 'ok', id : game._id});
+            });
         });
-    });
 
     app.put('/app/game/:id', authmdw.checkAdmin, function(req,res){
         let id = req.params.id;
