@@ -8,7 +8,7 @@
                 </router-link>
             </div>   
             <div v-for="game in games" class="game-name-wrapper">
-                <router-link :to="'/games/'+game.id" class="btn btn-outline-dark btn gamelink">
+                <router-link :to="'/games/'+game.id" :data-name="game.name" class="btn btn-outline-dark btn gamelink">
                   {{game.name}}
                 </router-link>
                 <button class="btn btn-danger float-right" @click.prevent="deleteGame(game.id)">X</span></button>

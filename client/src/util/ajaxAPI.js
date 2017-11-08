@@ -2,7 +2,7 @@ import axios from 'axios';
 
 var host;
 
-if(process.env.NODE_ENV == "development")
+if(process.env.NODE_ENV == "development" || process.env.NODE_ENV == "testing")
     var host = "//localhost:3000";
 else
     var host = "//ekmweb.herokuapp.com";

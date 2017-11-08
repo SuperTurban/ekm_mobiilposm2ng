@@ -23,7 +23,17 @@ module.exports = {
       selenium_host: 'localhost',
       silent: true,
       globals: {
-        devServerURL: 'http://localhost:' + (process.env.PORT || config.dev.port)
+        devServerURL: 'http://localhost:' + (process.env.PORT || config.dev.port),
+        login : function(browser){
+          const devServer = browser.globals.devServerURL
+          browser
+            .url(devServer)
+            .waitForElementVisible('#app', 5000)
+            .setValue('input[name=email]', 'admin@localhost')
+            .setValue('input[name=password]', 'testpassword')
+            .click('button[type=submit]')
+            .waitForElementVisible('#games-container',5000)
+        }
       }
     },
 
