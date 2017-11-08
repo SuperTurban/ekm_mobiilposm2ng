@@ -1,7 +1,10 @@
 const base_path = '/app/user';
 
 var jwt = require('jsonwebtoken');
+
 var User = require('./../models/user.js');
+var PlayerGames = require('./../models/playergames.js');
+
 let bcrypt = require('bcrypt');
 
 module.exports = function(app){
@@ -51,6 +54,31 @@ module.exports = function(app){
                 });
             }
         })
+    });
+
+
+    app.post(base_path + '/:user_id/addtogame/:game_id', function(req,res){
+        let user_id = req.params.user_id;
+        let game_id = req.params.game_id;
+        
+        PlayerGames.isUserInGame(user_id, game_id,function(err, isInGame){
+            if(isInGame)
+                return res.json({status : 'failure', message : 'User already in game!'});
+            else{
+                let PG = new PlayerGames({
+                    user_id,
+                    game_id,
+                    destinations : [],
+                });
+
+                PG.save(function(err, d){
+                    if(err)
+                        return console.log(err);
+                    
+                    return res.json({status : 'ok'});
+                });
+            }
+        });
     });
 
     

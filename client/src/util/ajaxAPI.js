@@ -122,8 +122,12 @@ let api = function(){
         return axios.post(host + '/app/destination', data);
     };
 
-    this.editDestination = function(destination){
-
+    this.editDestination = function(destination, id){
+        let data = {
+            destination : destination,
+        }
+        data = this.tokenize(data);
+        return axios.put(host + '/app/destination/'+id, data);
     };
 }
 let API = new api();

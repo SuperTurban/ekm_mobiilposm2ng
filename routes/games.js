@@ -21,7 +21,7 @@ module.exports = function(app){
     app.post(
         '/app/game', 
         authmdw.checkAdmin, 
-        body('game.name', 'Mängul peab olema nimi (vähemalt 3 tähte)!').isLength({min : 3}),
+        body('game.name', ' peab olema nimi (vähemalt 3 tähte)!').isLength({min : 3}),
         function(req,res,next){
 
             if(!validationResult(req).isEmpty()){
@@ -38,18 +38,27 @@ module.exports = function(app){
             });
         });
 
-    app.put('/app/game/:id', authmdw.checkAdmin, function(req,res){
-        let id = req.params.id;
-        let game = req.body.game;
+    app.put(
+        '/app/game/:id', 
+        authmdw.checkAdmin, 
+        body('game.name', ' peab olema nimi (vähemalt 3 tähte)!').isLength({min : 3}),
+        function(req,res,next){
 
-        Game.findByIdAndUpdate(id, game,function(err){
-            if(err){
-                console.log(err);
-                return;
+            if(!validationResult(req).isEmpty()){
+                return res.status(422).json({errors: validationResult(req).mapped()})
             }
 
-            res.send({status: 'ok', id : game._id});
-        })
+            let id = req.params.id;
+            let game = req.body.game;
+
+            Game.findByIdAndUpdate(id, game,function(err){
+                if(err){
+                    console.log(err);
+                    return;
+                }
+
+                res.send({status: 'ok', id : game._id});
+            })
     });
 
     app.get('/app/game/:id', function(req,res){
@@ -60,8 +69,6 @@ module.exports = function(app){
             }
         )
         .then(function(docs){
-            console.log(docs);
-            console.log('test');
             Destination.find({
                 '_id' : {
                     $in : docs.destinations
