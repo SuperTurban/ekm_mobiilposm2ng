@@ -26,6 +26,7 @@ let state = {
 
 import mainmenu from './components/mainmenu.vue';
 import login from './components/Login.vue';
+
 export default {
   name: 'app',
   data : function(){

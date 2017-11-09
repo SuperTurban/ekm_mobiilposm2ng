@@ -5,13 +5,22 @@ import App from './App'
 import router from './router'
 import axios from 'axios';
 
+import * as VueGmaps from 'vue2-google-maps';
+
 Vue.config.productionTip = false
 
-axios.get('http://localhost:3000/')
-  .then(function(data){
-    console.log(data);
-  });
+let api = require('./util/ajaxAPI.js');
+api.vue = Vue;
 
+Vue.prototype.api = api.default;
+
+Vue.use(VueGmaps, 
+  {
+    load : 
+    {
+    key : 'AIzaSyABVIIc4Ox0jUUV8UBqcrZ4ljfR0xqCuh4'
+    }
+  })
 
 new Vue({
   el: '#app',

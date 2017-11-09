@@ -2,7 +2,7 @@ var mongoose = require("mongoose");
 var bcrypt = require('bcrypt');
 
 var userSchema = mongoose.Schema({
-    username    :   String,
+    username    :   {type : String, index: true, unique: true},
     email       :   {type : String, index: true, unique: true},
     password    :   String,
     admin       :   Boolean,
@@ -15,7 +15,6 @@ var userSchema = mongoose.Schema({
 });
 
 userSchema.methods.checkPassword = function(password, cb){
-    console.log(password);
     return bcrypt.compare(password, this.password, cb);
 }
 

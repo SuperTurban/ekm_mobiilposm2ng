@@ -10,6 +10,7 @@ var destinationSchema = mongoose.Schema({
     name        :   String,
     description :   String,
     media       :   String,
+    information :   String,
     coords      : {
         lat : Number,
         long: Number,

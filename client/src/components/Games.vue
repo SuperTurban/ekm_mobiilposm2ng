@@ -8,7 +8,7 @@
                 </router-link>
             </div>   
             <div v-for="game in games" class="game-name-wrapper">
-                <router-link :to="'/games/'+game.id" class="btn btn-outline-dark btn gamelink">
+                <router-link :to="'/games/'+game.id" :data-name="game.name" class="btn btn-outline-dark btn gamelink">
                   {{game.name}}
                 </router-link>
                 <button class="btn btn-danger float-right" @click.prevent="deleteGame(game.id)">X</span></button>
@@ -23,8 +23,6 @@
 </template>
 
 <script>
-import api from '../util/ajaxAPI.js';
-
 export default {
   name: 'Games',  
   data () {
@@ -34,14 +32,14 @@ export default {
   },
   methods : {
       deleteGame : function(id){
-          api.deleteGame(id)
-            .then(function(){
+          this.api.deleteGame(id)
+            .then(function(response){
                 this.games = this.games.filter(el => id!=el.id);
             }.bind(this))
       }
   },
   created : function(){
-      api.listGames()
+      this.api.listGames()
         .then(function(data){
             this.games = data;
         }.bind(this))
@@ -50,7 +48,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
 .game-name-wrapper{
     clear:both;

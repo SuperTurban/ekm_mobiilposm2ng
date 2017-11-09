@@ -6,11 +6,13 @@
     
             <div class="form-group">
                 <label for="point_title">Punkti nimi:</label>
+                <verror :msg = "validationErrors.name"></verror>
                 <input v-model="destination.name" class="form-control" id="point_title"> 
             </div>
 
             <div class="form-group">
                 <label for="point_description">Punkti kirjeldus:</label>
+                <verror :msg = "validationErrors.description"></verror>
                 <textarea v-model="destination.description" class="form-control" id="point_description" rows="3"></textarea>
             </div>
 
@@ -19,16 +21,19 @@
                 <textarea v-model="destination.information" class="form-control" id="point_info" rows="3"></textarea>
             </div>
 
-            <div class="form-group">
-                <label for="coordsx">Koordinaat lat: </label>
-                <input v-model="destination.coords.lat" class="form-control" id="coordsx" rows="3">
-            </div>
+            <verror :msg = "validationErrors.lat"></verror>
+            <label>Vali koordinaadid:</label>
+            <gmap-map
+                @click = "mapClickHandler"
+                :center="getCenter()"
+                :zoom="getZoom()"
+                style="height:400px">
+                <gmap-marker
+                    :key = 1    
+                    :position = "{lat : destination.coords.lat, lng : destination.coords.long}">
+                </gmap-marker>
+            </gmap-map>
             
-            <div class="form-group">
-                <label for="coordsy">Koordinaat long: </label>
-                <input v-model="destination.coords.long" class="form-control" id="coordsy" rows="3">
-            </div>
-
             <div class="form-group">
                 <label for="point_media">Pilt või audio (praegu lihtsalt url:) </label>
                 <input v-model="destination.media" class="form-control" id="point_media" rows="3">
@@ -63,9 +68,8 @@
 
 <script>
 
-import api from '../util/ajaxAPI.js';
 import Multiselect from 'vue-multiselect'; 
-api.listGames();
+import ValidationError from './ValidationError.vue';
 export default {
     name : 'SingleDestination',
     data : function(){
@@ -77,10 +81,11 @@ export default {
                 question    : undefined,
                 information : undefined, 
                 coords : {
-                    lat  : 123,
-                    long : 123,
+                    lat  : undefined,
+                    long : undefined,
                 } 
             },
+            validationErrors : {},
         }
     },
     computed : {
@@ -89,24 +94,61 @@ export default {
         }
     },
     components :{
-        Multiselect
+        Multiselect,
+        verror : ValidationError,
     },
     methods : {
+        getCenter : function(){
+            if(this.isNewDestination)
+                return {lat: 58.64836904, lng: 25.510425}
+            else
+                return {lat : this.destination.coords.lat, lng: this.destination.coords.long}
+        },
+        getZoom : function(){
+            if(this.isNewDestination)
+                return 7;
+            else
+                return 12;
+        },
+        mapClickHandler : function(e){
+            this.destination.coords.lat = e.latLng.lat();
+            this.destination.coords.long = e.latLng.lng();
+        },
+        setValidationErrors : function(errors){
+            for(var key in errors){
+                if(errors.hasOwnProperty(key)){
+                    var mkey = key.split('.')[key.split('.').length-1];
+                    this.validationErrors[mkey] = errors[key].msg;
+                }
+            }
+            this.$forceUpdate();
+        },
         submit:function(){
+            this.validationErrors = {};
+
             if(this.isNewDestination){
-                api.newDestination(this.destination)
+                this.api.newDestination(this.destination)
                     .then(function(response){
                         this.$router.push({name : 'singledestination', params : {destinationId : response.data.id}})
+                    }.bind(this))
+                    .catch(function(error){
+                        this.setValidationErrors(error.response.data.errors);
                     }.bind(this));
             }
             else{
-                console.log('not new game');
+                this.api.editDestination(this.destination, this.$route.params.destinationId)
+                    .then(function(response){
+                        this.$router.push({name : 'singledestination', params : {destinationId : response.data.id}})
+                    }.bind(this))
+                    .catch(function(error){
+                        this.setValidationErrors(error.response.data.errors);
+                    }.bind(this));
             }
         },
         reload : function(){
             if(!this.isNewDestination){
                 console.log(this.$route.params.destinationId);
-                api.destinationById(this.$route.params.destinationId)
+                this.api.destinationById(this.$route.params.destinationId)
                     .then(function(data){
                         console.log(data);
                         this.destination = data;
@@ -122,7 +164,7 @@ export default {
     created : function(){
         this.reload();
 
-        api.listDestinations()
+        this.api.listDestinations()
             .then(function(data){
                 console.log('tes');
                 this.destinations = data;

@@ -8,9 +8,10 @@
                 </router-link>
             </div>   
             <div v-for="destination in destinations" class="game-name-wrapper">
-                <router-link :to="'/destinations/'+destination.id" class="btn btn-outline-dark btn-block">
+                <router-link :to="'/destinations/'+destination.id" class="btn btn-outline-dark destlink">
                   {{destination.name}}
                 </router-link>
+                <button class="btn btn-danger float-right" @click.prevent="deleteDestination(destination.id)">X</span></button>
             </div>
          </div>
        <div class="cur-game-info col-8">
@@ -35,7 +36,16 @@ export default {
     return {
       destinations : []
     }
+  },
+  methods : {
+      deleteDestination : function(id){
+            this.api.deleteDestination(id)
+                .then(function(response){
+                    this.destinations = this.destinations.filter(el => id!=el.id);
+                }.bind(this))
+        }
   }
+
 }
 </script>
 
@@ -43,6 +53,9 @@ export default {
 <style>
 .game-name-wrapper{
     margin-top:10px;
+}
+.destlink{
+    width:80%;
 }
 .games-list{
     border-right:1px solid #dadada;
