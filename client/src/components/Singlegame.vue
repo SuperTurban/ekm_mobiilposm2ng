@@ -45,7 +45,7 @@
 
             <div class="row action-buttons">
                 <div class="col">
-                <button id="submit-game" class="btn btn-block btn-success btn-lg" v-on:click.stop="submit">
+                <button id="submit-game" class="btn btn-block btn-success btn-lg" v-on:click.stop.prevent="submit">
                     Salvesta
                 </button>
                 </div>

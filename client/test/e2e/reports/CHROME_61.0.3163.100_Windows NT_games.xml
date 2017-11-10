@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuites errors="0"
             failures="1"
-            tests="3">
+            tests="4">
 
   <testsuite name="games"
-    errors="0" failures="1" hostname="" id="" package="games" skipped="1"
-    tests="3" time="8.178" timestamp="Wed, 08 Nov 2017 15:22:31 GMT">
+    errors="0" failures="1" hostname="" id="" package="games" skipped="0"
+    tests="4" time="35.84" timestamp="Fri, 10 Nov 2017 18:27:14 GMT">
   
-    <testcase name="Creating new game with correct values should create a new game" classname="games" time="4.534" assertions="3">
+    <testcase name="Creating new game with correct values should create a new game" classname="games" time="8.989" assertions="3">
 
     
 
@@ -16,7 +16,7 @@
     
     </testcase>
   
-    <testcase name="Created game should have correct values" classname="games" time="3.644" assertions="5">
+    <testcase name="Created game should have correct values" classname="games" time="7.478" assertions="6">
 
     
 
@@ -24,8 +24,30 @@
 
     
 
-      <failure message="Testing if element &lt;input#game_title&gt; contains text: &quot;TEST TITLE&quot;.">    at Object.CreatedGameShouldHaveCorrectValues [as Created game should have correct values] (C:\veeb\EKM_MÄNG\ekm_mobiilposm2ng\client\test\e2e\specs/games.js:26:21)
-    at _combinedTickCallback (internal/process/next_tick.js:73:7)</failure>
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Invalid input values should be catched by validation" classname="games" time="7.459" assertions="4">
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Delete button should delete the game" classname="games" time="11.91" assertions="3">
+
+    
+
+      <failure message="Timed out while waiting for element &lt;button[data-deletename='TEST TITLE']&gt; to not be visible for 5000 milliseconds.">    at Object.DeleteButtonShouldDeleteTheGame [as Delete button should delete the game] (C:/veebirakendused/test/Uus kaust/ekm_mobiilposm2ng/client/test/e2e/specs/games.js:45:14)
+    at _combinedTickCallback (internal/process/next_tick.js:67:7)</failure>
 
     
     </testcase>
@@ -33,13 +55,6 @@
 
   
 
-  
-    
-    <testcase
-      name="Invalid input values should be catched by validation" classname="games">
-      <skipped />
-    </testcase>
-    
   
   </testsuite>
 </testsuites>

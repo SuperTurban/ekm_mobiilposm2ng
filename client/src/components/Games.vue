@@ -11,7 +11,7 @@
                 <router-link :to="'/games/'+game.id" :data-name="game.name" class="btn btn-outline-dark btn gamelink">
                   {{game.name}}
                 </router-link>
-                <button class="btn btn-danger float-right" @click.prevent="deleteGame(game.id)">X</span></button>
+                <button :data-deletename="game.name" class="btn btn-danger float-right" @click.prevent="deleteGame(game.id)">X</span></button>
             </div>
          </div>
        <div class="cur-game-info col-8">
