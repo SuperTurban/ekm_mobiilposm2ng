@@ -5,7 +5,7 @@
   "scripts": {
     "test" : "mocha",
     "start": "node ./bin/www",
-    "postinstall": "cd client && npm install && npm install --only=dev && npm run build"
+    "postinstall": "node initDatabase.js && cd client && npm install && npm install --only=dev && npm run build"
   },
   "dependencies": {
     "bcrypt": "^1.0.3",
