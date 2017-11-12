@@ -42,7 +42,7 @@ module.exports = {
     'Delete button should delete the game' : function(browser){
         browser
             .click("button[data-deletename='TEST TITLE'")
-            .waitForElementNotVisible("button[data-deletename='TEST TITLE']", 5000)
+            .waitForElementNotPresent("button[data-deletename='TEST TITLE']", 5000)
             .end();
     }
 }
