@@ -23,8 +23,8 @@ module.exports = {
             .assert.elementPresent("a[data-name='TEST TITLE']")
             .click("a[data-name='TEST TITLE']")
             .waitForElementVisible("input#game_title",5000)
-            .assert.containsText("input#game_title", "TEST TITLE")
-            .assert.containsText("input#game_description", "TEST DESCRIPTION")
+            .assert.value("#game_title", "TEST TITLE")
+            .assert.value("#game_description", "TEST DESCRIPTION")
             .end();            
     },
 
@@ -35,7 +35,14 @@ module.exports = {
             .setValue("input#game_title", "TE")
             .setValue("textarea#game_description", "TEST DESCRIPTION")
             .click("#submit-game")
-            .waitForElementVisible("div.validation-error",5000)
+            .waitForElementVisible(".validation-error",5000)
+            .end();
+    },
+
+    'Delete button should delete the game' : function(browser){
+        browser
+            .click("button[data-deletename='TEST TITLE'")
+            .waitForElementNotPresent("button[data-deletename='TEST TITLE']", 5000)
             .end();
     }
 }

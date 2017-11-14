@@ -5,9 +5,9 @@
 
   <testsuite name="login"
     errors="0" failures="0" hostname="" id="" package="login" skipped="0"
-    tests="3" time="6.343" timestamp="Wed, 08 Nov 2017 15:22:39 GMT">
+    tests="3" time="13.47" timestamp="Sat, 11 Nov 2017 17:03:16 GMT">
   
-    <testcase name="Loginpage UI should be in place" classname="login" time="2.718" assertions="5">
+    <testcase name="Loginpage UI should be in place" classname="login" time="6.067" assertions="5">
 
     
 
@@ -20,12 +20,12 @@
     
     </testcase>
   
-    <testcase name="Loginpage UI should not let enter empty values" classname="login" time="2.597" assertions="1">
+    <testcase name="Loginpage UI should not let enter empty values" classname="login" time="5.549" assertions="1">
 
     
     </testcase>
   
-    <testcase name="Login with correct input log in the user" classname="login" time="1.028" assertions="2">
+    <testcase name="Login with correct input log in the user" classname="login" time="1.851" assertions="2">
 
     
 

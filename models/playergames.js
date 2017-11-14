@@ -7,8 +7,8 @@ var destinationWrap = new mongoose.Schema({
 })
 
 var playergamesSchema = mongoose.Schema({
-    user_id     :   String,
-    game_id     :   String,
+    user_id     :   {type:String, ref : 'users'},
+    game_id     :   {type:String, ref : 'games'},
     destinations:  [destinationWrap],
 },
 {
@@ -17,12 +17,13 @@ var playergamesSchema = mongoose.Schema({
         updated   : 'updated_at',
     },
 });
+
 playergamesSchema.statics.isUserInGame = function(user_id, game_id, cb){
     this.find({user_id, game_id},function(err, docs){
         if(err){
             return cb(err, null);
         }
-        console.log(docs);
+
         if(docs.length == 0)
             cb(null, false);
         else
@@ -31,14 +32,31 @@ playergamesSchema.statics.isUserInGame = function(user_id, game_id, cb){
 };
 
 /**
+ * Find all games that user is in
+ */
+playergamesSchema.statics.findAllUserGames = function(user_id, cb){
+    this.find({user_id}).populate('game_id').exec(function(err, docs){
+        if(err){
+            console.log(err);
+            return cb(err, null);
+        }
+
+        let games = docs.map(elem => elem.game_id)
+
+        cb(null, games);
+    });
+};
+
+/**
  * Add given destination to given user in given game
  */
 playergamesSchema.methods.addDestinationToUser = function(destination_id, score, cb){
     if(this.userHasDestination(destination_id))
-        return cb('User already in game', null);
+        return cb('User already has destination', null);
 
     let dest = {score, destination_id};
     this.destinations.push(dest);
+    console.log('testing errorrslkdfjlskdjf');
     this.save(cb);
 }
 
@@ -50,8 +68,8 @@ playergamesSchema.methods.userHasDestination = function(destination_id){
         return elem._id == destination_id;
     });
     return Boolean(dest.length); 
-
 }
+
 
 /**
  * Find player game score

@@ -23,7 +23,7 @@ module.exports = function(app){
 
             data.checkPassword(password, function(err, correct){
                 if(!correct){
-                    return res.send({sucess : 'failure', message : 'Vale parool!'});
+                    return res.send({status : 'failure', message : 'Vale parool!'});
                 }
                 else{
                     res.send({status : 'ok', token : jwt.sign({lin : true, username: data.username}, 'provsecret')});
