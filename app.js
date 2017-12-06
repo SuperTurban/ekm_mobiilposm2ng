@@ -12,13 +12,14 @@ var mongoose = require('mongoose');
 mongoose.connect(process.env.MONGODB_URI);
 
 var db = mongoose.connection;
+
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
 });
 
 
 app.use(function (req, res, next) {
-      res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
+      res.setHeader('Access-Control-Allow-Origin', '*');
       res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
       res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
       res.setHeader('Access-Control-Allow-Credentials', true);

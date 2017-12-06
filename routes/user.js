@@ -9,30 +9,10 @@ let bcrypt = require('bcrypt');
 
 module.exports = function(app){
 
-
-    app.get(base_path + '/maketestadminuser', function(req,res){
-        bcrypt.hash('testpassword', 10)
-            .then(function(hash){
-					
-                    let user = new User({
-                        username : 'ekmadmin',
-                        password : hash,
-                        admin : 1,
-                        email : 'admin@localhost'
-                    })
-										
-                    user.save(function(err, r){
-						console.log('jou');
-                        if(err)
-                            return console.log(err);
-                        else{
-                            return res.send(r);
-                        }
-                    })
-             });
-
-    });
-
+   //register new mobile app user
+   // POST /app/user/register
+   // request body {username, email}
+   // responds with created user creds, if successfult
    app.post(base_path + '/register', function(req,res){
 
         let user = new User({
@@ -111,7 +91,6 @@ module.exports = function(app){
         let game_id = req.params.game_id;
         let destination_id = req.body.destination_id;
         let score = req.body.score;
-        console.log('kas siia jõuab 123');
         PlayerGames.findOne({user_id, game_id}, function(err, PG){
 
             PG.addDestinationToUser(destination_id, 0, function(err, docs){

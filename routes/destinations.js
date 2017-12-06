@@ -30,12 +30,14 @@ LIST DESTINATIONS
 module.exports = function(app){
 
 app.get(base_path, function(req, res, next) {
-    let q = Destination.find(
+    let q = Destination.find()
+            .populate('media')
+            .exec(
            function(err, docs){
                 res.send(docs);
                 next(); 
             }
-        )
+        );
   });
 
 /*
@@ -70,12 +72,14 @@ app.post(base_path, authmdw.checkAdmin,
  */
 app.get('/app/destination/:id', function(req,res,next){
     Destination.findOne(
-        {_id: req.params.id},
+        {_id: req.params.id})
+        .populate('media')
+        .exec(
         function(err, docs){
              res.send(docs);
              next(); 
          }
-     )
+        );
 });
 
 

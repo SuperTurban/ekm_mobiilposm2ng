@@ -33,10 +33,11 @@
                     :position = "{lat : destination.coords.lat, lng : destination.coords.long}">
                 </gmap-marker>
             </gmap-map>
-            
-            <div class="form-group">
-                <label for="point_media">Pilt või audio (praegu lihtsalt url:) </label>
-                <input v-model="destination.media" class="form-control" id="point_media" rows="3">
+
+            <label style="margin-top:10px">Meediafailid:</label>
+            <div>
+                <media :chosenFiles="destination.media">
+                </media>
             </div>
 
             <div class="form-group">
@@ -70,6 +71,8 @@
 
 import Multiselect from 'vue-multiselect'; 
 import ValidationError from './ValidationError.vue';
+import MediaUpload from './Media.vue';
+
 export default {
     name : 'SingleDestination',
     data : function(){
@@ -77,13 +80,14 @@ export default {
             destination : {
                 name        : undefined,
                 description : undefined,
-                media       : undefined,
+                media       : [],
                 question    : undefined,
                 information : undefined, 
                 coords : {
                     lat  : undefined,
                     long : undefined,
-                } 
+                },
+                def : 2 
             },
             validationErrors : {},
         }
@@ -91,11 +95,15 @@ export default {
     computed : {
         isNewDestination : function(){
             return !this.$route.params.destinationId; 
+        },
+        destination_id : function(){
+            return this.$route.params.destinationId || undefined;
         }
     },
     components :{
         Multiselect,
         verror : ValidationError,
+        media : MediaUpload,
     },
     methods : {
         getCenter : function(){
@@ -163,7 +171,6 @@ export default {
     },
     created : function(){
         this.reload();
-
         this.api.listDestinations()
             .then(function(data){
                 console.log('tes');

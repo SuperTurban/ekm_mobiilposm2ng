@@ -1,15 +1,9 @@
 var mongoose = require("mongoose");
 
-var media = {
-    type : String, // (audio or image)
-    name : String, // (audio or image) 
-    file_loc : String,
-}
-
 var destinationSchema = mongoose.Schema({
     name        :   String,
     description :   String,
-    media       :   String,
+    media       :   [{type : mongoose.Schema.Types.ObjectId, ref: 'media'}],
     information :   String,
     coords      : {
         lat : Number,
