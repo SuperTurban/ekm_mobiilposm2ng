@@ -57,7 +57,7 @@
                 </button>
                 </div>
                 <div class="col">
-                <button class="btn btn-block btn-danger btn-lg tuhista">
+                <button class="btn btn-block btn-danger btn-lg tuhista" v-on:click.stop.prevent="cancel">
                     Tühista
                 </button>
                 </div>
@@ -152,6 +152,9 @@ export default {
                         this.setValidationErrors(error.response.data.errors);
                     }.bind(this));
             }
+        },
+        cancel : function(){
+            this.$router.push({name : 'Destinations'});
         },
         reload : function(){
             if(!this.isNewDestination){

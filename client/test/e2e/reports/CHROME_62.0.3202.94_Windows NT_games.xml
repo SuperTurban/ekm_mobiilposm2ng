@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="0"
+            failures="0"
+            tests="4">
+
+  <testsuite name="games"
+    errors="0" failures="0" hostname="" id="" package="games" skipped="0"
+    tests="4" time="56.75" timestamp="Wed, 06 Dec 2017 12:08:18 GMT">
+  
+    <testcase name="Creating new game with correct values should create a new game" classname="games" time="10.71" assertions="3">
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Created game should have correct values" classname="games" time="14.10" assertions="6">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Invalid input values should be catched by validation" classname="games" time="18.82" assertions="4">
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Delete button should delete the game" classname="games" time="13.11" assertions="3">
+
+    
+
+    
+
+    
+    </testcase>
+  
+
+  
+
+  
+  </testsuite>
+</testsuites>

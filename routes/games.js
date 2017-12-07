@@ -10,7 +10,33 @@ const { matchedData, sanitize } = require('express-validator/filter');
 var authmdw = require('./../middleware/authenticate.js');
 
 module.exports = function(app){
-
+    app.get('/app/game/example', (req, res) => {
+        Game.aggregate(
+            {
+                $unwind : "$destinations"
+            },
+            {
+                $lookup : {
+                    from:"destinations",
+                    localField: "destinations",
+                    foreignField: "_id",
+                    as: "destination"
+                }
+            },
+            {
+                $group : {
+                    _id : "$name",
+                    count : {$sum : 1},
+                }
+            },
+            function(err, response){
+                if(err)
+                    console.log(err);
+                else
+                    return res.json(response);
+            }
+        );
+    });
     app.get('/app/game', function(req,res,next){
         console.log('test');
         Game.find(function(err, docs){
@@ -110,5 +136,8 @@ module.exports = function(app){
                 res.json({status : 'ok'});
         });
     })
+
+
+   
 
 };
