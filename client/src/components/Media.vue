@@ -22,8 +22,8 @@
         </div>
         <div class="all-media row" v-if="showAll">
           <div v-for="file in filterFiles(allFiles)" class="col-xs-6 col-md-3">
-            <div v-if="file.mediaType=='IMAGE'">
-              <a class="img thumbnail" href="#" @click.prevent.stop="allMediaClickHandle(file)"><img :src="'/media/' + file.path"></a>
+            <div v-if="file.mediaType=='IMAGE' || file.mediaType=='image'">
+              <a class="img thumbnail" href="#" @click.prevent.stop="allMediaClickHandle(file)"><img :src="file.path"></a>
             </div>
 
             <div v-else>
