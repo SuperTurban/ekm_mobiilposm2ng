@@ -11,7 +11,6 @@ var destinationSchema = mongoose.Schema({
     },
     question    :   String,
     answer      :   String,
-    destinations:  [mongoose.Schema.Types.ObjectId],
 },
 {
     timestamps : {

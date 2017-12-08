@@ -56,7 +56,6 @@ playergamesSchema.methods.addDestinationToUser = function(destination_id, score,
 
     let dest = {score, destination_id};
     this.destinations.push(dest);
-    console.log('testing errorrslkdfjlskdjf');
     this.save(cb);
 }
 
