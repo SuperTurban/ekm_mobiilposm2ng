@@ -16,7 +16,7 @@
 
         </div>
 
-        <button class="btn" @click="showAll = !showAll"><span v-if="!showAll">Näita kõiki faile</span><span v-else>Peida ülejäänud failid</span></button>
+        <button class="btn" @click.prevent.stop="showAll = !showAll"><span v-if="!showAll">Näita kõiki faile</span><span v-else>Peida ülejäänud failid</span></button>
         <div v-if="showAll" style="margin-top:10px">
           <input v-model="nameFilterValue" type="text" placeholder="Filtreerimine nime järgi">
         </div>
@@ -171,7 +171,7 @@ const STATUS_INITIAL = 0, STATUS_SAVING = 1, STATUS_SUCCESS = 2, STATUS_FAILED =
   .input-file {
     opacity: 0; 
     width: 100%;
-    height: 200px;
+    height: 100px;
     position: absolute;
     cursor: pointer;
   }

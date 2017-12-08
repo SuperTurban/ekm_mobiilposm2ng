@@ -44,11 +44,6 @@ app.get(base_path, function(req, res, next) {
 SINGLE DESTINATION BY ID
 /app/destination/:id
 */
-
-
-app.get(base_path + '/test', function(req,res,next){
-     res.send('test');
-})
 /*
 NEW DESTINATION
 app/destination/
