@@ -15,12 +15,11 @@ var gameSchema = mongoose.Schema({
     },
 });
 
-gameSchema.pre('findOneAndRemove', function(next){
+gameSchema.post('findOneAndRemove', function(doc){
     playerGames.remove(
-        {game_id : this._id}
-    ).exec();
-
-    next();
+        {game_id : doc._id}
+    ).exec(function(err, result){
+    });
 })
 
 var Game = mongoose.model('games', gameSchema);

@@ -18,10 +18,10 @@ describe('USER API, /app/user', () => {
     before((done) => {
         chai.request(server)
             .post('/app/user/register')
-            .send({email : 'test@test', username : 'test'})
+            .send({email : 'tsssssss', username : 'tessssslskdf'})
             .end((err, res) => {
-                user_id = res.body.uid;
 
+                user_id = res.body.uid;
                 chai.request(server)
                     .get('/app/game')
                     .end((err, res) => {
@@ -30,7 +30,7 @@ describe('USER API, /app/user', () => {
                         chai.request(server)
                             .get('/app/destination')
                             .end((err, res) => {
-                                user_id = res.body[0]._id;
+                                destination_id = res.body[0]._id;
                                 done();
                             });
                     });

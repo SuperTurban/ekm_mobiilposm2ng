@@ -2,7 +2,7 @@ var mongoose = require("mongoose");
 var destinations = require('./destination.js');
 
 var destinationWrap = new mongoose.Schema({
-    _id : {type :mongoose.Schema.Types.ObjectId, ref:'destinations'},
+    destination : {type :mongoose.Schema.Types.ObjectId, ref:'destinations'},
     score : Number,
 })
 
@@ -54,8 +54,10 @@ playergamesSchema.methods.addDestinationToUser = function(destination_id, score,
     if(this.userHasDestination(destination_id))
         return cb('User already has destination', null);
 
-    let dest = {score, destination_id};
+    let dest = {score, destination : destination_id};
     this.destinations.push(dest);
+    this.update({})
+    console.log(this.destinations);
     this.save(cb);
 }
 
@@ -64,7 +66,7 @@ playergamesSchema.methods.addDestinationToUser = function(destination_id, score,
  */
 playergamesSchema.methods.userHasDestination = function(destination_id){
     let dest = this.destinations.filter(function(elem){
-        return elem._id == destination_id;
+        return elem.destination == destination_id;
     });
     return Boolean(dest.length); 
 }

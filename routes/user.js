@@ -91,11 +91,15 @@ module.exports = function(app){
         let game_id = req.params.game_id;
         let destination_id = req.body.destination_id;
         let score = req.body.score;
-        PlayerGames.findOne({user_id, game_id}, function(err, PG){
 
+        if(!user_id || destination_id == "undefined" || destination_id == false || user_id == "undefined")
+            return res.json({status:'failure', message : 'No user or destination'});
+
+        PlayerGames.findOne({user_id, game_id}, function(err, PG){
+            if(err)
+                return res.json({status : 'failure'});
             PG.addDestinationToUser(destination_id, 0, function(err, docs){
                 if(err){
-                    console.log(err);
                     res.json({status : 'failure', message : err})
                 }
                 else
@@ -116,7 +120,7 @@ module.exports = function(app){
             .findOne({user_id, game_id})
             .populate('destinations._id')
             .exec(function(err, PG){
-             if(err){
+             if(err || !PG){
                  console.log(err)
                  return res.json({status : 'failure'});
              }
