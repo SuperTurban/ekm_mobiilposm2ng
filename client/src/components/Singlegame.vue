@@ -17,7 +17,7 @@
 
             <div class="form-group">
                 <label for="game_active">Rada aktiivne:</label>
-                <button id="game_active" class="btn" v-bind:class="{'btn-success' : game.active}" v-on:click="toggleActive">
+                <button id="game_active" class="btn" v-bind:class="{'btn-success' : game.active}" v-on:click.stop.prevent="toggleActive">
                     <span v-if="game.active">
                         Aktiivne
                     </span>
@@ -25,6 +25,13 @@
                         Mitteaktiivne
                     </span>
                 </button>
+            </div>
+
+            <div class="form-group">
+                <label for="color_picker">
+                    Vali raja värv:
+                </label>
+                <input type="color" id="color_picker" v-model="game.gameColor">
             </div>
 
             <div>
@@ -76,6 +83,7 @@ export default {
                 description : undefined,
                 destinations : [],
                 active : false,
+                gameColor : "#adadad",
             },
             destinations : [],
             validationErrors : {},
@@ -112,6 +120,7 @@ export default {
                 description : this.game.description,
                 destinations : this.api.mapDestinationIds(this.game.destinations),
                 active : this.game.active,
+                gameColor : this.game.gameColor,
             };
 
             if(this.isNewGame){
@@ -138,7 +147,10 @@ export default {
             if(!this.isNewGame){
                 this.api.gameById(this.$route.params.id)
                     .then(function(data){
+                        console.log(Object.keys(data));
                         this.game = data;
+                        if(this.game.gameColor == "" || this.game.gameColor == undefined)
+                            this.game.gameColor = "#adadad";
                     }.bind(this));
             }
 

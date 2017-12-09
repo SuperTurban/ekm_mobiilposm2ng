@@ -18,9 +18,9 @@ const upload = multer({ storage: storage });
 
 function getType(x){
     if(x.mimetype.match(/image/).length)
-        return 'IMAGE';
+        return 'image';
     if(x.mimetype.match(/audio/).length)
-        return 'AUDIO';
+        return 'audio';
     
     return 'unefined';
 }

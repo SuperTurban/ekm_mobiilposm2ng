@@ -10,35 +10,7 @@ const { matchedData, sanitize } = require('express-validator/filter');
 var authmdw = require('./../middleware/authenticate.js');
 
 module.exports = function(app){
-    app.get('/app/game/example', (req, res) => {
-        Game.aggregate(
-            {
-                $unwind : "$destinations"
-            },
-            {
-                $lookup : {
-                    from:"destinations",
-                    localField: "destinations",
-                    foreignField: "_id",
-                    as: "destination"
-                }
-            },
-            {
-                $group : {
-                    _id : "$name",
-                    count : {$sum : 1},
-                }
-            },
-            function(err, response){
-                if(err)
-                    console.log(err);
-                else
-                    return res.json(response);
-            }
-        );
-    });
     app.get('/app/game', function(req,res,next){
-        console.log('test');
         Game.find(function(err, docs){
             return res.send(docs);
         })
@@ -101,7 +73,7 @@ module.exports = function(app){
                 }
             },function(err, destinations){
                 destinations = destinations.map(el => ({id : el._id, name :  el.name}));
-                var r = {active: docs.active, name : docs.name, _id : docs._id, description: docs.description, destinations : destinations};
+                var r = {gameColor : docs.gameColor, active: docs.active, name : docs.name, _id : docs._id, description: docs.description, destinations : destinations};
                 res.json(r);
             });
         })

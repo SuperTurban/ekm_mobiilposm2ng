@@ -6,7 +6,7 @@
 
     
           <div v-for="file in chosenFiles" class="col-xs-6 col-md-3">
-            <div v-if="file.mediaType=='IMAGE'">
+            <div v-if="file.mediaType=='IMAGE' || file.mediaType=='image'">
               <a class="img thumbnail" href="#" @click.prevent.stop="chosenMediaClickHandle(file)"><img :src="'/media/' + file.path"></a>
             </div>
             <div v-else>
@@ -208,6 +208,10 @@ const STATUS_INITIAL = 0, STATUS_SAVING = 1, STATUS_SUCCESS = 2, STATUS_FAILED =
 
   .audionail{
     height:125px;
+    word-wrap: break-word;
+    padding: 5px;
+    background-color: orange;
+    color: black;
   }
   .img img:hover, .audionail:hover{
     opacity:0.3;

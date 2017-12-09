@@ -6,6 +6,7 @@ var gameSchema = mongoose.Schema({
     description :   String,
     destinations:  [mongoose.Schema.Types.ObjectId],
     active      :   Boolean,
+    gameColor   :   String,
 },
 {
     timestamps : {
