@@ -129,6 +129,32 @@ let api = function(){
         data = this.tokenize(data);
         return axios.put(host + '/app/destination/'+id, data);
     };
+	
+	this.getPlayerScores = function(game_id) {
+		var uri;
+		
+		if (game_id == null) {
+			uri = 'app/leaderboards/all';
+		}
+		else {
+			uri = '/app/leaderboards/' + game_id;
+		}
+			
+		return axios
+			.get(host + uri)
+			.then(function(response){
+				let data = response.data.players.map(function(v){
+					return {
+						id : v._id,
+						username : v.username,
+						score : v.score
+					} 
+				});
+				return data;
+			})
+	};
+	
+
 }
 let API = new api();
 

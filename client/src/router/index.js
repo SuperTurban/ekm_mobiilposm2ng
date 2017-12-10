@@ -7,6 +7,8 @@ import Users from '@/components/Users.vue'
 import SingleGame from '@/components/Singlegame.vue'
 import CreateGame from '@/components/CreateGame.vue'
 import SingleDestination from '@/components/Singledestination.vue'
+import Leaderboards from '@/components/Leaderboards.vue'
+import Leaderboard from '@/components/Leaderboard.vue'
 
 Vue.use(Router)
 
@@ -55,6 +57,18 @@ export default new Router({
       path : '/create-destination',
       name : 'NewDestination',
       component : SingleDestination,
-    }
-  ]
+    },
+	{
+	  path : '/leaderboards',
+	  name : 'Leaderboards',
+	  component : Leaderboards,
+	  children : [
+	  {
+	     name : 'singleleaderboard',
+		 path : ':gameId',
+		 component : Leaderboard,
+	  },
+	  ]
+	}
+	]
 })

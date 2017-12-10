@@ -22,7 +22,6 @@ module.exports = function(app){
                     })
 										
                     user.save(function(err, r){
-						console.log('jou');
                         if(err)
                             return console.log(err);
                         else{
@@ -49,6 +48,7 @@ module.exports = function(app){
                 });
             }
             else{
+				//console.log(data._id);
                 res.json({
                     status : 'ok',
                     username : data.username,
@@ -58,6 +58,20 @@ module.exports = function(app){
             }
         })
     });
+	
+	// Get all app users (all users where "admin" = "false")
+	// GET /app/user/all
+	// response: {status: ok, users: [...]}
+	app.get(base_path + '/all', function(req, res) {
+		
+		User.find({admin : 0}, function(err, users) {
+			if (err) {
+				res.json({status : 'failure'})
+			}
+			console.log(users);
+		});
+		return res.json({status : 'ok', users});
+	});
 
     // Insert mobile app user into a game
     // POST /app/user/:USER_ID/game/:GAME_ID
@@ -111,10 +125,9 @@ module.exports = function(app){
         let game_id = req.params.game_id;
         let destination_id = req.body.destination_id;
         let score = req.body.score;
-        console.log('kas siia jõuab 123');
         PlayerGames.findOne({user_id, game_id}, function(err, PG){
 
-            PG.addDestinationToUser(destination_id, 0, function(err, docs){
+            PG.addDestinationToUser(destination_id, score, function(err, docs){
                 if(err){
                     console.log(err);
                     res.json({status : 'failure', message : err})
@@ -141,7 +154,7 @@ module.exports = function(app){
                  console.log(err)
                  return res.json({status : 'failure'});
              }
-
+			console.log(PG);
             return res.json({status : 'ok', destinations : PG.destinations}) 
             })
     });

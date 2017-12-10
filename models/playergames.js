@@ -4,7 +4,12 @@ var destinations = require('./destination.js');
 var destinationWrap = new mongoose.Schema({
     _id : {type :mongoose.Schema.Types.ObjectId, ref:'destinations'},
     score : Number,
-})
+},
+{
+	timestamps : {
+		completedAt : 'completed_at'
+	}
+});
 
 var playergamesSchema = mongoose.Schema({
     user_id     :   {type:String, ref : 'users'},
@@ -56,7 +61,6 @@ playergamesSchema.methods.addDestinationToUser = function(destination_id, score,
 
     let dest = {score, destination_id};
     this.destinations.push(dest);
-    console.log('testing errorrslkdfjlskdjf');
     this.save(cb);
 }
 
@@ -84,6 +88,5 @@ var playerGames = mongoose.model('playergames', playergamesSchema);
 
 //Check if given player is in given game
 
-//get game score
 
 module.exports = playerGames;

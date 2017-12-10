@@ -1,0 +1,116 @@
+const base_path = '/app/leaderboards';
+
+var jwt = require('jsonwebtoken');
+
+var User = require('./../models/user.js');
+var PlayerGames = require('./../models/playergames.js');
+
+module.exports = function(app){
+	
+   // get a leaderboard throughout all games
+   // GET /app/leaderboards/all_games_scores
+   // response status 
+   app.get(base_path + '/all', function(req, res) {
+		PlayerGames.aggregate(
+			{
+				$unwind : "$destinations"
+			},
+			{
+				$lookup : {
+					from : "destinations",
+					localField : "destinations",
+					foreignField : "_id",
+					as : "destination"
+				}
+			},
+			{
+				$group : {
+					_id : "$user_id",
+					score : { $sum : "$destinations.score" },
+					username : { $first : "$username" }
+					}
+			},
+			{
+				$sort : {
+				score : -1
+				}
+			},
+			function(err, players) {
+				if (err) {
+					res.send({status : '400'});
+				}
+				else {
+					res.send({status : 'ok', players : players});					}
+			})
+   });
+   
+   // get a leaderboard for a certain game(game_id)
+   // GET /app/leaderboards/:game_id/scores
+   // 
+	app.get(base_path + '/:game_id', function(req, res) {
+		let gameId = req.params.game_id;
+	   		
+		PlayerGames.aggregate(
+				{
+					$match : {game_id : gameId}
+				},
+								{
+					$lookup : {
+						from : "users",
+						localField : "user_id",
+						foreignField : "_id",
+						as : "user"
+					}
+				},
+				{
+					$unwind : "$destinations"
+				},
+				{
+					$lookup : {
+						from : "destinations",
+						localField : "destinations",
+						foreignField : "_id",
+						as : "destination"
+					}
+				},
+				{
+					$group : {
+						_id : "$user_id",
+						score : { $sum : "$destinations.score" },
+						username : { $first : "$username" }
+						}
+				},
+				{
+					$project : {
+						_id : 1,
+						score : 1,
+						username : 1
+					}
+				},
+				{
+					$sort : {
+						score : -1
+					}
+				},
+				function(err, players) {
+					if (err) {
+						res.send({status : '400'});
+					}
+					else {
+						res.send({status : 'ok', players : players});
+					}
+				})
+	   	   	   
+	});
+   
+   // get scores in all games for a user
+   // GET /app/leaderboards/:user_id/scores
+   // 
+   app.get(base_path + '/:user_id/scores', function(req, res) {
+	   
+	   //let user_id = req.params.user_id;
+	   
+	   
+   });
+	
+};
