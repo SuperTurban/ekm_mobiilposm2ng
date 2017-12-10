@@ -14,9 +14,10 @@ const storage = multer.diskStorage({
    }
 });
   
-const upload = multer({ storage: storage });
+const upload = multer({ storage: storage, limits: {fileSize: 100000000} });
 
 function getType(x){
+    conosle.log('test');
     if(x.mimetype.match(/image/).length)
         return 'image';
     if(x.mimetype.match(/audio/).length)
@@ -30,15 +31,6 @@ function uploadingDone(res){
 }
 module.exports = function(app){
     app.post('/app/media', upload.array("files[]",20), function(req,res){
-
-        let files = req.files.map(x => {
-            return {
-                path      : '/media/' + x.filename,
-                name      : x.originalname,
-                mediaType : getType(x),
-            }
-        });
-
         var totalItems = req.files.length;
         console.log(req.files.length);
         itemsDone = 0;
@@ -46,12 +38,15 @@ module.exports = function(app){
         if(process.env.CDN_STRATEGY == "CLOUD"){
           for(var index = 0; index < req.files.length; index++){
              cloudinary.v2.uploader.upload(req.files[index].path, 
+                {resource_type : 'auto'},
                 (function(ind){
                  return (function(error, result){
                     console.log(req.files);
 
-                    if(error)
+                    if(error){ 
+                        res.json({status:'failure'});
                         return console.log(error);
+                    }
                     else
                         {
                             console.log(index);
@@ -77,6 +72,13 @@ module.exports = function(app){
         }
         else{
 
+            let files = req.files.map(x => {
+                return {
+                    path      : '/media/' + x.filename,
+                    name      : x.originalname,
+                    mediaType : getType(x),
+                }
+            });
             Media.create(files, function(err, result){
                 if(err)
                     return res.json({status: 'failure', message : 'some ting wong'});

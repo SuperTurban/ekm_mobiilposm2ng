@@ -144,7 +144,7 @@ export default {
         },
         choiceStyle : function(inp){
             var inp = this.destination.question["choice" + inp];
-            if(this.destination.question.answer == inp)
+            if(this.destination.question.answer == inp && inp !=='')
                 return "rightchoice";
             else
                 return "wrongchoice";

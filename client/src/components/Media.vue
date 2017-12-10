@@ -7,7 +7,7 @@
     
           <div v-for="file in chosenFiles" class="col-xs-6 col-md-3">
             <div v-if="file.mediaType=='IMAGE' || file.mediaType=='image'">
-              <a class="img thumbnail" href="#" @click.prevent.stop="chosenMediaClickHandle(file)"><img :src="'/media/' + file.path"></a>
+              <a class="img thumbnail" href="#" @click.prevent.stop="chosenMediaClickHandle(file)"><img :src="getImgThumb(file.path)"></a>
             </div>
             <div v-else>
               <a class="audionail" href="#" @click.prevent.stop="chosenMediaClickHandle(file)">AUDIO : {{file.name}}</a>
@@ -21,13 +21,13 @@
           <input v-model="nameFilterValue" type="text" placeholder="Filtreerimine nime järgi">
         </div>
         <div class="all-media row" v-if="showAll">
-          <div v-for="file in filterFiles(allFiles)" class="col-xs-6 col-md-3">
+          <div v-for="file in filterFiles(allFiles)" class="col-xs-6 col-sm-4 col-md-3">
             <div v-if="file.mediaType=='IMAGE' || file.mediaType=='image'">
-              <a class="img thumbnail" href="#" @click.prevent.stop="allMediaClickHandle(file)"><img :src="file.path"></a>
+              <a class="img thumbnail" href="#" @click.prevent.stop="allMediaClickHandle(file)"><img :src="getImgThumb(file.path)"></a>
             </div>
 
             <div v-else>
-              <a class="audionail" href="#" @click.prevent.stop="allMediaClickHandle(file)">{{file.name}}</a>
+              <a class="audionail" href="#" @click.prevent.stop="allMediaClickHandle(file)">AUDIO: {{file.name}}</a>
             </div>
 
           </div>
@@ -39,7 +39,7 @@
 
               <div class="dropbox">
 
-                    <input type="file" multiple :name="uploadFieldName" :disabled="isSaving" @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length" accept="*" class="input-file">
+                    <input type="file" multiple :name="uploadFieldName" :disabled="isSaving" @change="filesChange($event.target.name, $event.target.files); fileCount = $event.target.files.length" accept="audio/*|video/*|image/*" class="input-file">
 
                     <p v-if="isInitial">
                       Lohista failid siia.
@@ -87,6 +87,13 @@ const STATUS_INITIAL = 0, STATUS_SAVING = 1, STATUS_SUCCESS = 2, STATUS_FAILED =
       }
     },
     methods: {
+      getImgThumb(path){
+        var parts = path.split('/upload/');
+        if(parts.length == 2)
+            return parts[0] + '/upload/' + 'w_150,c_fit/' + parts[1];
+        else
+          return path;
+      },
       filterFiles(files){
         if(this.nameFilterValue == '')
           return files;
@@ -201,13 +208,13 @@ const STATUS_INITIAL = 0, STATUS_SAVING = 1, STATUS_SUCCESS = 2, STATUS_FAILED =
     margin-top:10px;
   }
   .img img, .audionail{
-    width:125px;
-    max-height:125px;
+    width:150px;
+    max-height:150px;
     border:3px solid black;
   }
 
   .audionail{
-    height:125px;
+    height:150;
     word-wrap: break-word;
     padding: 5px;
     background-color: orange;
