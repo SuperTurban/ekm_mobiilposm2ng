@@ -9,7 +9,6 @@ let bcrypt = require('bcrypt');
 
 module.exports = function(app){
 
-
     app.get(base_path + '/maketestadminuser', function(req,res){
         bcrypt.hash('testpassword', 10)
             .then(function(hash){
@@ -32,6 +31,10 @@ module.exports = function(app){
 
     });
 
+   //register new mobile app user
+   // POST /app/user/register
+   // request body {username, email}
+   // responds with created user creds, if successfult
    app.post(base_path + '/register', function(req,res){
 
         let user = new User({
@@ -125,11 +128,21 @@ module.exports = function(app){
         let game_id = req.params.game_id;
         let destination_id = req.body.destination_id;
         let score = req.body.score;
+<<<<<<< HEAD
         PlayerGames.findOne({user_id, game_id}, function(err, PG){
 
             PG.addDestinationToUser(destination_id, score, function(err, docs){
+=======
+
+        if(!user_id || destination_id == "undefined" || destination_id == false || user_id == "undefined")
+            return res.json({status:'failure', message : 'No user or destination'});
+
+        PlayerGames.findOne({user_id, game_id}, function(err, PG){
+            if(err)
+                return res.json({status : 'failure'});
+            PG.addDestinationToUser(destination_id, 0, function(err, docs){
+>>>>>>> bfbd78c34751494c007c7d8da4913fd14c922a2d
                 if(err){
-                    console.log(err);
                     res.json({status : 'failure', message : err})
                 }
                 else
@@ -150,7 +163,7 @@ module.exports = function(app){
             .findOne({user_id, game_id})
             .populate('destinations._id')
             .exec(function(err, PG){
-             if(err){
+             if(err || !PG){
                  console.log(err)
                  return res.json({status : 'failure'});
              }
@@ -158,6 +171,8 @@ module.exports = function(app){
             return res.json({status : 'ok', destinations : PG.destinations}) 
             })
     });
+
+    
 
 
 };

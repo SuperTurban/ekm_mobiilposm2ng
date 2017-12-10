@@ -12,6 +12,7 @@ var mongoose = require('mongoose');
 mongoose.connect(process.env.MONGODB_URI);
 
 var db = mongoose.connection;
+
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
 });
@@ -62,7 +63,5 @@ app.use(function(err, req, res, next) {
 app.listen(process.env.PORT || 3000, function () {
 
 })
-
-
 
 module.exports = app;

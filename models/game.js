@@ -1,10 +1,12 @@
 var mongoose = require("mongoose");
+var playerGames = require("./playergames");
 
 var gameSchema = mongoose.Schema({
     name        :   String,
     description :   String,
     destinations:  [mongoose.Schema.Types.ObjectId],
     active      :   Boolean,
+    gameColor   :   String,
 },
 {
     timestamps : {
@@ -13,6 +15,16 @@ var gameSchema = mongoose.Schema({
     },
 });
 
+gameSchema.post('findOneAndRemove', function(doc){
+    playerGames.remove(
+        {game_id : doc._id}
+    ).exec(function(err, result){
+    });
+})
+
 var Game = mongoose.model('games', gameSchema);
+
+
+
 
 module.exports = Game;

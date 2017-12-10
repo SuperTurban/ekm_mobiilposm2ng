@@ -5,7 +5,7 @@ var host;
 if(process.env.NODE_ENV == "development" || process.env.NODE_ENV == "testing")
     var host = "//localhost:3000";
 else
-    var host = "//ekmweb.herokuapp.com";
+    var host = "";
 
 
 
@@ -19,11 +19,31 @@ let api = function(){
         return data;
     };
 
+    this.mapMediaIds = function(media){
+        return media.map(x => x._id);        
+    };
     this.mapDestinationIds = function(destinations){
         return destinations.map(function(el){
             return el.id;
         })
     };
+
+    this.createMedia = function(formData){
+
+        return axios.post(host + "/app/media/", formData)
+            .then(function(response){
+                console.log(response);
+            });
+    };
+
+    this.getMedia = function(){
+        return axios.get(host + "/app/media")
+            .then(function(response){
+                if(response.data.status == 'ok')
+                    return response.data.files;
+                else throw 'error';
+             });
+    }
 
     this.authenticate = function(email, password){
         return axios
@@ -113,8 +133,10 @@ let api = function(){
     };
 
     this.newDestination = function(destination){
+        var ndestination = Object.assign({}, destination);
+        ndestination.media = this.mapMediaIds(destination.media);
         let data = {
-            destination  : destination,
+            destination  : ndestination,
         };
         
         data = this.tokenize(data);
@@ -123,8 +145,10 @@ let api = function(){
     };
 
     this.editDestination = function(destination, id){
+        var ndestination = Object.assign({}, destination);
+        ndestination.media = this.mapMediaIds(destination.media);
         let data = {
-            destination : destination,
+            destination : ndestination,
         }
         data = this.tokenize(data);
         return axios.put(host + '/app/destination/'+id, data);

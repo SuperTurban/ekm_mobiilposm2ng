@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="0"
+            failures="0"
+            tests="3">
+
+  <testsuite name="login"
+    errors="0" failures="0" hostname="" id="" package="login" skipped="0"
+    tests="3" time="6.750" timestamp="Fri, 08 Dec 2017 12:46:09 GMT">
+  
+    <testcase name="Loginpage UI should be in place" classname="login" time="3.121" assertions="5">
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Loginpage UI should not let enter empty values" classname="login" time="2.627" assertions="1">
+
+    
+    </testcase>
+  
+    <testcase name="Login with correct input log in the user" classname="login" time="1.002" assertions="2">
+
+    
+
+    
+    </testcase>
+  
+
+  
+
+  
+  </testsuite>
+</testsuites>
