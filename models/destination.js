@@ -2,6 +2,15 @@ var mongoose = require("mongoose");
 var Game = require("./game");
 var playerGames = require("./playergames");
 
+var questionSchema = new mongoose.Schema({
+    question : String,
+    choice1  : String,
+    choice2  : String,
+    choice3  : String,
+    answer  : String,
+    type : String
+});
+
 var destinationSchema = mongoose.Schema({
     name        :   String,
     description :   String,
@@ -11,8 +20,7 @@ var destinationSchema = mongoose.Schema({
         lat : Number,
         long: Number,
     },
-    question    :   String,
-    answer      :   String,
+    question    :   questionSchema,
 },
 {
     timestamps : {

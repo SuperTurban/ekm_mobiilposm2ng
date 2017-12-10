@@ -42,13 +42,36 @@
 
             <div class="form-group">
                 <label for="point_question">Küsimus punkti kohta: </label>
-                <input v-model="destination.question" class="form-control" id="point_question" rows="3">
+                <input type="text" class="form-control" v-model="destination.question.question">
+                </input>
             </div>
 
-            <div class="form-group">
-                <label for="point_answer">Vastus küsimusele: </label>
-                <input type="text" v-model="destination.answer" class="form-control" id="point_answer" rows="3"></textarea>
+
+            <div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-secondary" v-bind:class="answerStyle('single_answer')">
+                    <input type="radio" value="single_answer" v-model="destination.question.type">Kindel vastus 
+                </label>
+                <label class="btn btn-secondary" v-bind:class="answerStyle('multiple_choice')">
+                    <input type="radio" value="multiple_choice" v-model="destination.question.type">Valik vastused
+                </label>
+                <label class="btn btn-secondary" v-bind:class="answerStyle('creative_answer')">
+                    <input type="radio" value="creative_answer" v-model="destination.question.type">Loominguline vastus
+                </label>
             </div>
+            <div class="form-group descended" v-if="destination.question.type=='multiple_choice'">
+            <label for="choice1">Vastusevariant 1 <span class="btn-outline-dark btn-sm" @click="destination.question.answer = destination.question.choice1">Märgi õigeks</span></label>
+            <input type="text" v-bind:class="choiceStyle(1)" id="choice1" class="form-control" v-model="destination.question.choice1">
+            <label for="choice2">Vastusevariant 2 <span class="btn-outline-dark btn-sm" @click="destination.question.answer = destination.question.choice2">Märgi õigeks</span></label>
+            <input type="text" v-bind:class="choiceStyle(2)" id="choice2" class="form-control" v-model="destination.question.choice2">
+            <label for="choice3">Vastusevariant 3 <span class="btn-outline-dark btn-sm" @click="destination.question.answer = destination.question.choice3">Märgi õigeks</span></label>
+            <input type="text" v-bind:class="choiceStyle(3)" id="choice3"class="form-control" v-model="destination.question.choice3">
+            </div>
+
+            <div class="form-group" v-if="destination.question.type!='creative_answer'">
+                <label for="point_answer">Vastus küsimusele: </label>
+                <input type="text" v-model="destination.question.answer" class="form-control" id="point_answer" rows="3"></textarea>
+            </div>
+
 
             <div class="row action-buttons">
                 <div class="col">
@@ -81,7 +104,14 @@ export default {
                 name        : undefined,
                 description : undefined,
                 media       : [],
-                question    : undefined,
+                question    : {
+                    question : '',
+                    type : 'multiple_choice',
+                    choice1 : '',
+                    choice2 : '',
+                    choice3 : '',
+                    answer : '',
+                },
                 information : undefined, 
                 coords : {
                     lat  : undefined,
@@ -106,6 +136,19 @@ export default {
         media : MediaUpload,
     },
     methods : {
+        answerStyle : function(inp){
+            if(this.destination.question.type == inp)
+                return "btn-success"
+            else 
+                return "";
+        },
+        choiceStyle : function(inp){
+            var inp = this.destination.question["choice" + inp];
+            if(this.destination.question.answer == inp)
+                return "rightchoice";
+            else
+                return "wrongchoice";
+        },
         getCenter : function(){
             if(this.isNewDestination)
                 return {lat: 58.64836904, lng: 25.510425}
@@ -161,8 +204,16 @@ export default {
                 console.log(this.$route.params.destinationId);
                 this.api.destinationById(this.$route.params.destinationId)
                     .then(function(data){
-                        console.log(data);
-                        this.destination = data;
+                        if(typeof data.question == String)
+                            delete data.question;
+                        
+                        for(var key in data){
+                            if(data.hasOwnProperty(key)){
+                                console.log(key);
+                                this.destination[key] = data[key];
+                            }
+                        }
+
                     }.bind(this));
             }
         },
@@ -186,7 +237,20 @@ export default {
 
 
 <style>
+    .rightchoice{
+        border-color:green !important;
+    }
+    .wrongchoice{
+        border-color:red !important;
+    }
     .action-buttons{
         margin-top:25px;
+    }
+
+    .btn-group{
+        margin-bottom:10px;
+    }
+    .descended{
+        padding-left:20px;
     }
 </style>
