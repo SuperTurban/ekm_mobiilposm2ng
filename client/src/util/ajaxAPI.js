@@ -154,8 +154,9 @@ let api = function(){
         return axios.put(host + '/app/destination/'+id, data);
     };
 	
-	this.getPlayerScores = function(game_id) {
+	this.getGameLeaderboard = function(game_id) {
 		var uri;
+		
 		
 		if (game_id == null) {
 			uri = 'app/leaderboards/all';
@@ -163,18 +164,18 @@ let api = function(){
 		else {
 			uri = '/app/leaderboards/' + game_id;
 		}
-			
+
 		return axios
 			.get(host + uri)
 			.then(function(response){
 				let data = response.data.players.map(function(v){
 					return {
 						id : v._id,
-						username : v.username,
+						user : v.user,
 						score : v.score
 					} 
 				});
-				return data;
+				return response.data;
 			})
 	};
 	
@@ -182,15 +183,15 @@ let api = function(){
 		return axios 
 			.get(host + '/app/user/all')
 			.then(function(response) {
-				let data = response.data.users.map(function(v) {
+				/*let data = response.data.users.map(function(v) {
 					return {
 						id : v._id,
 						username : v.username,
 						email : v.email
 					}
-				});
-				console.log(data);
-				return data;
+				});*/
+				console.log(response);
+				return response.data;
 			})
 	};
 	

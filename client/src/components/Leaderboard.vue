@@ -2,17 +2,26 @@
     <div class="container" id="leaderboard-container">
 		<h3 v-if="game == undefined">Üldine edetabel</h3>
 		<h3 v-else>{{game.name}}</h3>
+
+		<div class="btn btn-success">
+			<a :href="'mailto:' + emails.join(';')">
+				Saada email valitud kasutajatele
+			</a>
+        </div>
+		
 		<table>
-				<tr>
+			<tr class="column-titles">
+				<th>Koht</th>
 				<th>Kasutajanimi</th>
-				<th>Skoor</th>
+				<th>Punktid</th>
+				<th>Vali, et saata email</th>
 			</tr>
-			<div v-for="player in players">
-				<tr>
-					<th>{{player.username}}</th>
-					<th>{{player.score}}</th>
-				</tr>
-			</div>
+			<tr v-for="(player, index) in players">
+				<th>{{index+1}}</th>
+				<th>{{player.user.username}}</th>
+				<th>{{player.score}}</th>
+				<th><input type="checkbox" name="Send email" :value="player.user.email" @click="addEmail"></th>
+			</tr>
 		</table>
     </div>
 </template>
@@ -26,6 +35,7 @@ export default {
 		return {
 			players : [],
 			game : undefined,
+			emails : [],
 		}
 	},
 	created : function(){
@@ -37,6 +47,15 @@ export default {
 		}
 	},
 	methods : {
+			addEmail : function() {
+				var checkedUser = event.target;
+				var checkedUserEmail = checkedUser.value;
+				if (checkedUser.checked) {
+					this.emails.push(checkedUserEmail);
+				} else {
+					this.emails = this.emails.filter(item => item !== checkedUserEmail)
+				}
+			},
 			reload : function() {
 				if (this.$route.params.gameId != "all") {
 					this.api.gameById(this.$route.params.gameId)
@@ -47,9 +66,9 @@ export default {
 					this.game = undefined;
 				}
 				
-				this.api.getPlayerScores(this.$route.params.gameId)
+				this.api.getGameLeaderboard(this.$route.params.gameId)
                 .then(function(data){
-                    this.players = data;
+                    this.players = data.players;
                 }.bind(this));
 				
 				
@@ -59,5 +78,23 @@ export default {
 </script>
 
 <style>
+
+table {
+	width: 100%;
+}
+
+.column-titles{
+	background-color: #F7BE81;
+}
+	
+th {
+	height: 30px;
+	text-align : left;
+	padding-left: 10px;
+}
+	
+table, th, tr {
+   border: 1px solid;
+}
 
 </style>

@@ -41,7 +41,7 @@ module.exports = function(app){
 				$group : {
 					_id : "$user_id",
 					score : { $sum : "$destinations.score" },
-					username : { $first : "$user.username" }
+					user : { $first : "$user" }
 					}
 			},
 			{
@@ -54,7 +54,6 @@ module.exports = function(app){
 					res.send({status : '400'});
 				}
 				else {
-					console.log(players);
 					res.send({status : 'ok', players : players});					}
 			})
    });
@@ -97,7 +96,7 @@ module.exports = function(app){
 					$group : {
 						_id : "$user_id",
 						score : { $sum : "$destinations.score" },
-						username : { $first : "$user.username" }
+						user : { $first : "$user" },
 						}
 				},
 				{
@@ -110,7 +109,6 @@ module.exports = function(app){
 						res.send({status : '400'});
 					}
 					else {
-						console.log(players);
 						res.send({status : 'ok', players : players});
 					}
 				})
