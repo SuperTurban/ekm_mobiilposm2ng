@@ -75,7 +75,7 @@
 
             <div class="row action-buttons">
                 <div class="col">
-                <button class="btn btn-block btn-success btn-lg" v-on:click.stop.prevent="submit">
+                <button id="submit-destination" class="btn btn-block btn-success btn-lg" v-on:click.stop.prevent="submit">
                     Salvesta
                 </button>
                 </div>

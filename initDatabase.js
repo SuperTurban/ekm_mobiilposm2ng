@@ -1,4 +1,7 @@
 var User = require('./models/user.js');
+var Game = require('./models/game.js');
+var Destination = require('./models/destination.js');
+
 var bcrypt = require('bcrypt');
 
 var mongoose = require('mongoose');
@@ -33,6 +36,78 @@ db.once('open', function() {
             }
         })
     });
+	
+	// add destination point 1
+	let destination0 = new Destination({
+		name : "test point 0",
+		description : "for automated tests",
+		coords : {
+			lat : 69,
+			long : 70,
+		}
+	});
+	
+	Destination.find(
+		{ name : "test point 0", description : "for automated tests"},
+		function(err, res) {
+			return res;
+		}).then(function(res) {
+			if (res.length  == 0) {
+				destination0.save(function(err, r){
+				if (err) {
+					console.log(err);
+				}
+				console.log('Destination point created.');
+			}
+		});
+	});
+	
+	// add destination point 2
+	let destination1 = new Destination({
+		name : "test point 1",
+		description : "for automated tests",
+		coords : {
+			lat : 34,
+			long : 98,
+		}
+	});
+	
+	Destination.find(
+		{ name : "test point 1", description : "for automated tests"},
+		function(err, res) {
+			return res;
+		}).then(function(res) {
+			if (res.length  == 0) {
+				destination.save(function(err, r){
+				if (err) {
+					console.log(err);
+				}
+				console.log('Destination point created.');
+			}
+		});
+	});
+	
+	Destination.findOne(
+		{ name : "test point 0"},
+		function(err, res) {
+			return res;
+		}).then(function(res) {
+			let game = new Game({
+				name: "test game 0", 
+				description : "for automated tests", 
+				destinations: [res._id], 
+				active : 1, 
+			});
+			
+			game.save(function(err, r) {
+				if (err) {
+					console.log(err);
+				}
+				console.log('Game created.');
+			});
+		});
+	
+
 });
 
 

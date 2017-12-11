@@ -1,17 +1,17 @@
 <template>
-    <div class="container" id="games-container">
+    <div class="container" id="destinations-container">
        <div class="row">
-         <div class="col-4 games-list">
+         <div class="col-4 destinations-list">
             <div class="game-name-wrapper">
                 <router-link to="/create-destination" class="btn btn-block btn-success">
                     Uus punkt 
                 </router-link>
             </div>   
             <div v-for="destination in destinations" class="game-name-wrapper">
-                <router-link :to="'/destinations/'+destination.id" class="btn btn-outline-dark destlink">
+                <router-link :to="'/destinations/'+destination.id" class="btn btn-outline-dark destlink" :data-name="destination.name">
                   {{destination.name}}
                 </router-link>
-                <button class="btn btn-danger float-right" @click.prevent="deleteDestination(destination.id)">X</span></button>
+                <button :data-deletename="destination.name" class="btn btn-danger float-right" @click.prevent="deleteDestination(destination.id)">X</span></button>
             </div>
          </div>
        <div class="cur-game-info col-8">

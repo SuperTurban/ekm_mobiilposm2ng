@@ -9,10 +9,10 @@
     <router-link  class="nav-link" v-bind:class="{ 'active' : activeEl == 1}" to="/destinations">Mängude sihtkohad</router-link>
   </li>
   <li class="nav-item" @click="clicked(2)">
-    <router-link to="/users" class="nav-link" v-bind:class="{ 'active' : activeEl == 2}" href="#">Kasutajad</router-link>
+    <router-link to="/users" class="nav-link" v-bind:class="{ 'active' : activeEl == 2}">Kasutajad</router-link>
   </li>
   <li class="nav-item" @click="clicked(3)">
-    <router-link to="/leaderboards/all" class="nav-link" v-bind:class="{ 'active' : activeEl == 3}" href="#">Edetabelid</router-link>
+    <router-link to="/leaderboards/all" class="nav-link" v-bind:class="{ 'active' : activeEl == 3}">Edetabelid</router-link>
   </li>
 </ul>
 <ul class="nav nav-pills justify-content-end">
