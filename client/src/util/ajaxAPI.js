@@ -183,13 +183,13 @@ let api = function(){
 		return axios 
 			.get(host + '/app/user/all')
 			.then(function(response) {
-				/*let data = response.data.users.map(function(v) {
+				let data = response.data.users.map(function(v) {
 					return {
 						id : v._id,
 						username : v.username,
 						email : v.email
 					}
-				});*/
+				});
 				console.log(response);
 				return response.data;
 			})

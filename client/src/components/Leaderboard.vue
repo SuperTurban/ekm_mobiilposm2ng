@@ -1,28 +1,35 @@
 <template>
     <div class="container" id="leaderboard-container">
-		<h3 v-if="game == undefined">Üldine edetabel</h3>
-		<h3 v-else>{{game.name}}</h3>
+	
+		<div class="col">
+			<h3 v-if="game == undefined">Üldine edetabel</h3>
+			<h3 v-else>{{game.name}}</h3>
+		</div>
 
-		<div class="btn btn-success">
-			<a :href="'mailto:' + emails.join(';')">
-				Saada email valitud kasutajatele
-			</a>
-        </div>
+		<div class="col">
+			<div class="btn btn-success btn-group">
+				<a :href="'mailto:' + emails.join(';')">
+					Saada email valitud kasutajatele
+				</a>
+			</div>
+		</div>
 		
-		<table>
-			<tr class="column-titles">
-				<th>Koht</th>
-				<th>Kasutajanimi</th>
-				<th>Punktid</th>
-				<th>Vali, et saata email</th>
-			</tr>
-			<tr v-for="(player, index) in players">
-				<th>{{index+1}}</th>
-				<th>{{player.user.username}}</th>
-				<th>{{player.score}}</th>
-				<th><input type="checkbox" name="Send email" :value="player.user.email" @click="addEmail"></th>
-			</tr>
-		</table>
+		<div class="col">
+			<table>
+				<tr class="column-titles">
+					<th>Koht</th>
+					<th>Kasutajanimi</th>
+					<th>Punktid</th>
+					<th>Vali, et saata email</th>
+				</tr>
+				<tr v-for="(player, index) in players">
+					<th>{{index+1}}</th>
+					<th>{{player.user.username}}</th>
+					<th>{{player.score}}</th>
+					<th><input type="checkbox" name="Send email" :value="player.user.email" @click="addEmail"></th>
+				</tr>
+			</table>
+		</div>
     </div>
 </template>
 
@@ -81,6 +88,10 @@ export default {
 
 table {
 	width: 100%;
+}
+
+.col {
+	padding-bottom: 10px;
 }
 
 .column-titles{
