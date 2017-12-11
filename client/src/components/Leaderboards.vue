@@ -4,9 +4,11 @@
          <div class="col-4 games-list">
 			<div class="general-scores" @click="clicked(0)">
 				<router-link :to="'/leaderboards/all'" class="btn btn-outline-dark btn gamelink" v-bind:class="{ 'active' : activeEl == 0}">
-					General scores
+					Üldine edetabel
 				</router-link>
 			</div>
+			<br>
+			<h5>Mängude edetabelid:</h5>
             <div v-for="(game, index) in games" class="game-name-wrapper" @click="clicked(index+1)">
                 <router-link :to="'/leaderboards/'+game.id" :data-name="game.name" class="btn btn-outline-dark btn gamelink" v-bind:class="{ 'active' : activeEl == index+1}">
                   {{game.name}}

@@ -1,6 +1,7 @@
 <template>
     <div class="container" id="leaderboard-container">
-		<h3>test</h3>
+		<h3 v-if="game == undefined">Üldine edetabel</h3>
+		<h3 v-else>{{game.name}}</h3>
 		<table>
 				<tr>
 				<th>Username</th>
@@ -24,6 +25,7 @@ export default {
 	data () {
 		return {
 			players : [],
+			game : undefined,
 		}
 	},
 	created : function(){
@@ -36,11 +38,21 @@ export default {
 	},
 	methods : {
 			reload : function() {
-			console.log(this.$route.params.gameId);
+				if (this.$route.params.gameId != "all") {
+					this.api.gameById(this.$route.params.gameId)
+					.then(function(data) {
+						this.game = data;
+					}.bind(this));
+				} else {
+					this.game = undefined;
+				}
+				
 				this.api.getPlayerScores(this.$route.params.gameId)
                 .then(function(data){
                     this.players = data;
                 }.bind(this));
+				
+				
 			}
 		}
 }
