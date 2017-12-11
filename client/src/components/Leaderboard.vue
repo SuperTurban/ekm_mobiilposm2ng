@@ -4,8 +4,8 @@
 		<h3 v-else>{{game.name}}</h3>
 		<table>
 				<tr>
-				<th>Username</th>
-				<th>Score</th>
+				<th>Kasutajanimi</th>
+				<th>Skoor</th>
 			</tr>
 			<div v-for="player in players">
 				<tr>
