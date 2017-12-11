@@ -66,14 +66,12 @@ module.exports = function(app){
 	// GET /app/user/all
 	// response: {status: ok, users: [...]}
 	app.get(base_path + '/all', function(req, res) {
-		
 		User.find({admin : 0}, function(err, users) {
 			if (err) {
 				res.json({status : 'failure'})
 			}
-			console.log(users);
+			return res.json({status : 'ok', users : users});
 		});
-		return res.json({status : 'ok', users});
 	});
 
     // Insert mobile app user into a game
@@ -128,20 +126,15 @@ module.exports = function(app){
         let game_id = req.params.game_id;
         let destination_id = req.body.destination_id;
         let score = req.body.score;
-<<<<<<< HEAD
-        PlayerGames.findOne({user_id, game_id}, function(err, PG){
-
-            PG.addDestinationToUser(destination_id, score, function(err, docs){
-=======
 
         if(!user_id || destination_id == "undefined" || destination_id == false || user_id == "undefined")
             return res.json({status:'failure', message : 'No user or destination'});
-
+		
         PlayerGames.findOne({user_id, game_id}, function(err, PG){
+			console.log(PG);
             if(err)
                 return res.json({status : 'failure'});
-            PG.addDestinationToUser(destination_id, 0, function(err, docs){
->>>>>>> bfbd78c34751494c007c7d8da4913fd14c922a2d
+            PG.addDestinationToUser(destination_id, score, function(err, docs){
                 if(err){
                     res.json({status : 'failure', message : err})
                 }
@@ -171,8 +164,5 @@ module.exports = function(app){
             return res.json({status : 'ok', destinations : PG.destinations}) 
             })
     });
-
-    
-
 
 };

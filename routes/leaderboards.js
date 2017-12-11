@@ -9,7 +9,7 @@ module.exports = function(app){
 	
    // get a leaderboard throughout all games
    // GET /app/leaderboards/all_games_scores
-   // response status 
+   // response: {status, players: [{user_id, username, score}, ...]}
    app.get(base_path + '/all', function(req, res) {
 		PlayerGames.aggregate(
 			{
@@ -40,13 +40,14 @@ module.exports = function(app){
 					res.send({status : '400'});
 				}
 				else {
+					console.log(players);
 					res.send({status : 'ok', players : players});					}
 			})
    });
    
    // get a leaderboard for a certain game(game_id)
    // GET /app/leaderboards/:game_id/scores
-   // 
+   // response: {status, players : [{user_id, username, score}, ...]}
 	app.get(base_path + '/:game_id', function(req, res) {
 		let gameId = req.params.game_id;
 	   		
@@ -108,7 +109,7 @@ module.exports = function(app){
    // 
    app.get(base_path + '/:user_id/scores', function(req, res) {
 	   
-	   //let user_id = req.params.user_id;
+	   let user_id = req.params.user_id;
 	   
 	   
    });

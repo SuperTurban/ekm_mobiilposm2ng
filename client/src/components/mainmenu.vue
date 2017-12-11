@@ -12,7 +12,7 @@
     <router-link to="/users" class="nav-link" v-bind:class="{ 'active' : activeEl == 2}" href="#">Kasutajad</router-link>
   </li>
     <li class="nav-item" @click="clicked(3)">
-    <router-link to="/leaderboards" class="nav-link" v-bind:class="{ 'active' : activeEl == 3}" href="#">Edetabelid</router-link>
+    <router-link to="/leaderboards/all" class="nav-link" v-bind:class="{ 'active' : activeEl == 3}" href="#">Edetabelid</router-link>
   </li>
 </ul>
 <ul class="nav nav-pills justify-content-end">

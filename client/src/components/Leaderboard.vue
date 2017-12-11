@@ -27,10 +27,7 @@ export default {
 		}
 	},
 	created : function(){
-		api.getPlayerScores(this.$route.params.gameId)
-            .then(function(data){
-                this.players = data;
-            }.bind(this));
+		this.reload();
 	},
 	watch : {
 		'$route.params.gameId' : function(id) {
@@ -39,6 +36,7 @@ export default {
 	},
 	methods : {
 			reload : function() {
+			console.log(this.$route.params.gameId);
 				this.api.getPlayerScores(this.$route.params.gameId)
                 .then(function(data){
                     this.players = data;
