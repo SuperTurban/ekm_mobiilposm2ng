@@ -8,7 +8,7 @@
 			</tr>
 			<div v-for="player in players">
 				<tr>
-					<th>{{player.username}}abc</th>
+					<th>{{player.username}}</th>
 					<th>{{player.score}}</th>
 				</tr>
 			</div>

@@ -12,8 +12,8 @@ var destinationWrap = new mongoose.Schema({
 });
 
 var playergamesSchema = mongoose.Schema({
-    user_id     :   {type:String, ref : 'users'},
-    game_id     :   {type:String, ref : 'games'},
+    user_id     :   {type :mongoose.Schema.Types.ObjectId, ref:'users'},
+    game_id     :   {type :mongoose.Schema.Types.ObjectId, ref:'games'},
     destinations:  [destinationWrap],
 },
 {

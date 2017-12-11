@@ -4,6 +4,7 @@ import Main from '@/components/Main.vue'
 import Games from '@/components/Games.vue'
 import Destinations from '@/components/Destinations.vue'
 import Users from '@/components/Users.vue'
+import User from '@/components/User.vue'
 import SingleGame from '@/components/Singlegame.vue'
 import CreateGame from '@/components/CreateGame.vue'
 import SingleDestination from '@/components/Singledestination.vue'
@@ -46,7 +47,14 @@ export default new Router({
     {
       path: '/users',
       name: 'Users',
-      component : Users
+      component : Users,
+	  children : [
+		{
+		  name : 'singleuser',
+		  path : ':userId',
+		  component : User,
+		}
+	  ]
     },
     {
       path : '/create-game',

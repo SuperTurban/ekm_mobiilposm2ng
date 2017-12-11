@@ -178,6 +178,22 @@ let api = function(){
 			})
 	};
 	
+	this.listUsers = function() {
+		return axios 
+			.get(host + '/app/user/all')
+			.then(function(response) {
+				let data = response.data.users.map(function(v) {
+					return {
+						id : v._id,
+						username : v.username,
+						email : v.email
+					}
+				});
+				console.log(data);
+				return data;
+			})
+	};
+	
 
 }
 let API = new api();

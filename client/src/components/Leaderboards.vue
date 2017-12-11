@@ -46,7 +46,5 @@ export default {
 </script>
 
 <style>
-.general-scores {
-	clear:both;
-}
+
 </style>
