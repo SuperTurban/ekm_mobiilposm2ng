@@ -12,8 +12,6 @@ mongoose.connect(process.env.MONGODB_URI);
 var db = mongoose.connection;
 
 //create user to run tests
-
-
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
     let password = bcrypt.hash('testpassword', 10)
@@ -37,11 +35,7 @@ db.once('open', function() {
             }
         })
     });
-<<<<<<< HEAD
 
-
-=======
-	
 	// add destination point 1
 	let destination0 = new Destination({
 		name : "test point 0",
@@ -109,7 +103,6 @@ db.once('open', function() {
 				console.log('Game created.');
 			});
 		});
->>>>>>> 938c3f28af15d9a7d244c48e1ff9d94fc4c4f579
 	
 
 });
