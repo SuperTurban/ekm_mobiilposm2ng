@@ -165,4 +165,39 @@ module.exports = function(app){
             })
     });
 
+
+
+    app.post(base_path + '/:user_id/game/:game_id/delete', function(req,res){
+        let user_id = req.params.user_id;
+        let game_id = req.params.game_id; 
+
+        PlayerGames.remove({
+            user_id,
+            game_id
+        }, function(err, result){
+            if(err){
+                console.log(err);
+                return res.json({status : 'failure'});
+            }
+            else
+                return res.json({status : 'ok'});
+        });
+    });
+
+
+    app.post(base_path + '/:user_id/delete', function(req,res){
+        let user_id = req.params.user_id;
+        User.remove({
+            id : user_id
+        }, 
+        function(err, result){
+            if(err){
+                console.log(err);
+                return res.json({status : 'failure'});
+            }
+            else
+                return res.json({status : 'ok'});
+        });
+    });
+
 };
