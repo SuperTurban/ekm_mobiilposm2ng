@@ -13,6 +13,7 @@ var db = mongoose.connection;
 
 //create user to run tests
 
+
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
     let password = bcrypt.hash('testpassword', 10)
@@ -50,17 +51,16 @@ db.once('open', function() {
 	Destination.find(
 		{ name : "test point 0", description : "for automated tests"},
 		function(err, res) {
-			return res;
-		}).then(function(res) {
 			if (res.length  == 0) {
 				destination0.save(function(err, r){
-				if (err) {
-					console.log(err);
-				}
-				console.log('Destination point created.');
+					if (err) {
+						console.log(err);
+					}
+					console.log('Destination point created.');
+				});
 			}
-		});
-	});
+		}
+	);
 	
 	// add destination point 2
 	let destination1 = new Destination({
@@ -75,17 +75,16 @@ db.once('open', function() {
 	Destination.find(
 		{ name : "test point 1", description : "for automated tests"},
 		function(err, res) {
-			return res;
-		}).then(function(res) {
 			if (res.length  == 0) {
-				destination.save(function(err, r){
-				if (err) {
-					console.log(err);
-				}
-				console.log('Destination point created.');
+				destination1.save(function(err, r){
+					if (err) {
+						console.log(err);
+					}
+					console.log('Destination point created.');
+				});
 			}
-		});
-	});
+		}
+	);
 	
 	Destination.findOne(
 		{ name : "test point 0"},

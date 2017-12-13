@@ -5,9 +5,9 @@
 
   <testsuite name="destinations"
     errors="0" failures="0" hostname="" id="" package="destinations" skipped="0"
-    tests="4" time="19.14" timestamp="Mon, 11 Dec 2017 20:46:00 GMT">
+    tests="4" time="56.38" timestamp="Wed, 13 Dec 2017 14:54:32 GMT">
   
-    <testcase name="Creating new destination with correct values should create a new destination" classname="destinations" time="5.764" assertions="4">
+    <testcase name="Creating new destination with correct values should create a new destination" classname="destinations" time="8.768" assertions="4">
 
     
 
@@ -18,24 +18,11 @@
     
     </testcase>
   
-    <testcase name="Created destination point should have correct values" classname="destinations" time="4.429" assertions="7">
+    <testcase name="Created destination point should have correct values" classname="destinations" time="4.768" assertions="7">
 
     
 
     
-
-    
-
-    
-
-    
-
-    
-
-    
-    </testcase>
-  
-    <testcase name="Invalid input values should be catched by validation" classname="destinations" time="4.610" assertions="5">
 
     
 
@@ -48,7 +35,20 @@
     
     </testcase>
   
-    <testcase name="Delete button should delete the destination point" classname="destinations" time="4.336" assertions="4">
+    <testcase name="Invalid input values should be catched by validation" classname="destinations" time="23.83" assertions="5">
+
+    
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Delete button should delete the destination point" classname="destinations" time="19.02" assertions="4">
 
     
 
