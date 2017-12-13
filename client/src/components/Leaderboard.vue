@@ -20,12 +20,14 @@
 					<th>Koht</th>
 					<th>Kasutajanimi</th>
 					<th>Punktid</th>
+					<th>Email</th>
 					<th>Vali, et saata email</th>
 				</tr>
 				<tr v-for="(player, index) in players">
 					<th>{{index+1}}</th>
 					<th>{{player.user.username}}</th>
 					<th>{{player.score}}</th>
+					<th>{{player.user.email}}</th>
 					<th><input type="checkbox" name="Send email" :value="player.user.email" @click="addEmail"></th>
 				</tr>
 			</table>
