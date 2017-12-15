@@ -154,13 +154,12 @@ module.exports = function(app){
 
         PlayerGames
             .findOne({user_id, game_id})
-            .populate('destinations._id')
+            .populate('destinations.destination')
             .exec(function(err, PG){
              if(err || !PG){
                  console.log(err)
                  return res.json({status : 'failure'});
              }
-			console.log(PG);
             return res.json({status : 'ok', destinations : PG.destinations}) 
             })
     });
